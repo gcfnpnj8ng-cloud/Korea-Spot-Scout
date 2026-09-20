@@ -29,7 +29,7 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(11,15,20,.94);back
 <body>
 <div class="app">
   <div class="top">
-    <div class="brand"><div class="title"><h1>🇰🇷 Korea Spot Scout</h1><p>Sydkorea 2027 · swipe jer frem til jeres fælles favoritter</p></div><div class="profile"><button data-person="Mikkel">Mikkel</button><button data-person="Partner">Partner</button></div></div>
+    <div class="brand"><div class="title"><h1>🇰🇷 Korea Spot Scout</h1><p>Sydkorea 2027 · swipe jer frem til jeres fælles favoritter</p></div><div class="profile"><button data-person="Mikkel">Mikkel</button><button data-person="Louise">Louise</button></div></div>
     <div class="nav"><button data-view="swipe" class="active">Swipe</button><button data-view="matches">Matches</button><button data-view="likes">Likes</button><button data-view="all">Alle</button></div>
   </div>
   <div class="filters"><select id="city"><option value="">Alle byer</option></select><select id="category"><option value="">Alle kategorier</option></select></div>
@@ -53,13 +53,13 @@ const spots=[
 {id:"S009",name:"Ulsanbawi Rock Trail",ko:"울산바위",city:"Sokcho / Seoraksan",area:"Seoraksan National Park",category:"Hike / nature",type:"STABIL FAVORIT",price:"Gratis",time:"4–5 t",desc:"Ca. 7,6 km retur, hård slutsektion og stor panoramaudsigt fra granitryggen.",why:"Stærk kandidat til jeres ene seriøse Sokcho-hike.",hours:"Adgang styres af nationalparkens start-/lukketider",reservation:"Ingen normal reservation til standardruten",best:"April: tidligt på dagen; tjek vind, is og parkstatus samme morgen",transport:"Bus 7/7-1 fra Sokcho til 설악산소공원",walking:"7,6 km retur",address:"Trailhead: Seorakdong Sogongwon / 설악산소공원",nearby:"Sinheungsa, Heundeulbawi",safety:"Stejle trapper; vind/is kan ændre forhold hurtigt",naver:"https://map.naver.com/p/search/%EC%84%A4%EC%95%85%EC%82%B0%20%EC%9A%B8%EC%82%B0%EB%B0%94%EC%9C%84",maps:"https://www.google.com/maps/search/?api=1&query=Ulsanbawi%20Seoraksan",img:"https://sunnydayswithjuliette.com/wp-content/uploads/2024/12/ulsanbawi-seoraksan_hike.jpg?w=1024",status:"KEEP",confidence:"MIDDEL-HØJ",hike:{distance:"7,6 km retur",elevation:"~670 m (foreløbig sekundær kilde)",duration:"4–5 t",difficulty:"Moderat; hård slutsektion",start:"Seorakdong Sogongwon",end:"Ulsanbawi viewpoint",loop:"Nej, ud-og-hjem",surface:"Skovsti, sten, 800+ trapper",gear:"Gode vandresko, vand, lag mod vind/regn",access:"Tjek KNPS-realtidslukninger samme dag"}},
 {id:"S010",name:"Sokcho Tourist & Fishery Market",ko:"속초관광수산시장",city:"Sokcho",area:"Jungang-dong",category:"Food market",type:"VIRALT NU",price:"₩–₩₩",time:"1.5–2.5 t",desc:"Seafood, dakgangjeong, abai sundae og salted seafood.",why:"Nem måde at prøve flere Sokcho-specialiteter efter Seoraksan.",hours:"08:00–24:00; varierer pr. butik",reservation:"Nej",best:"Sen eftermiddag/aften",transport:"Centralt i Sokcho; bus/taxi",walking:"Fladt og kompakt",address:"12 Jungang-ro 147beon-gil, Sokcho-si, Gangwon-do",nearby:"Abai Village, Cheongcho Lake",safety:"Travlt i peak; enkelte boder lukker tidligere",naver:"https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%EA%B4%80%EA%B4%91%EC%88%98%EC%82%B0%EC%8B%9C%EC%9E%A5",maps:"https://www.google.com/maps/search/?api=1&query=Sokcho%20Tourist%20Fishery%20Market",img:"https://stat.ameba.jp/user_images/20211209/17/togimoti/8a/5a/j/o1080081015043890997.jpg",status:"KEEP",confidence:"HØJ"}
 ];
-let person=localStorage.getItem("kss-person")||"Partner",view="swipe";
-const votes=JSON.parse(localStorage.getItem("kss-votes")||'{"Mikkel":{},"Partner":{}}');
+let person=localStorage.getItem("kss-person")||"Louise",view="swipe";
+const votes=JSON.parse(localStorage.getItem("kss-votes")||'{"Mikkel":{},"Louise":{}}');
 function save(){localStorage.setItem("kss-votes",JSON.stringify(votes));localStorage.setItem("kss-person",person)}
 function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1500)}
 function filtered(){let c=document.getElementById("city").value,k=document.getElementById("category").value;return spots.filter(s=>(!c||s.city===c)&&(!k||s.category===k))}
 function remaining(){return filtered().filter(s=>!votes[person][s.id])}
-function isMatch(id){return votes.Mikkel[id]==="LIKE"&&votes.Partner[id]==="LIKE"}
+function isMatch(id){return votes.Mikkel[id]==="LIKE"&&votes.Louise[id]==="LIKE"}
 function render(){
  const total=filtered().length,done=total-remaining().length,matches=filtered().filter(s=>isMatch(s.id)).length;
  document.getElementById("progressText").textContent=`${done}/${total} swipet`;
@@ -90,7 +90,7 @@ city.onchange=category.onchange=render;
 document.getElementById("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({version:1,votes},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="korea-spot-scout-valg.json";a.click();URL.revokeObjectURL(a.href)};
 document.getElementById("importBtn").onclick=()=>document.getElementById("importFile").click();
 document.getElementById("resetBtn").onclick=()=>{if(confirm(`Nulstil alle ${person}s valg?`)){votes[person]={};save();toast("Profil nulstillet");render()}};
-document.getElementById("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d.votes){votes.Mikkel=d.votes.Mikkel||{};votes.Partner=d.votes.Partner||{};save();toast("Valg importeret");render()}}catch(_){toast("Kunne ikke importere filen")}};r.readAsText(f)};
+document.getElementById("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d.votes){votes.Mikkel=d.votes.Mikkel||{};votes.Louise=d.votes.Louise||d.votes.Partner||{};save();toast("Valg importeret");render()}}catch(_){toast("Kunne ikke importere filen")}};r.readAsText(f)};
 let installPrompt=null;
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e;document.getElementById("installBtn").style.display="inline-block"});
 document.getElementById("installBtn").onclick=async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;document.getElementById("installBtn").style.display="none"}else{toast("Brug browsermenuen → Føj til hjemmeskærm")}};
