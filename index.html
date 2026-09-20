@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <title>Korea Spot Scout — Sydkorea 2027</title>
 <meta name="theme-color" content="#111827"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Korea Scout"/>
 <style>
 :root{--bg:#0b0f14;--card:#151b23;--muted:#98a2b3;--text:#f8fafc;--line:#28303d;--green:#24c875;--red:#ff5c6c;--yellow:#f3c751;--blue:#62a8ff}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0a0d12,#10151d);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
@@ -16,7 +20,7 @@
 .card{border-radius:25px;overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.35);margin-top:10px;position:relative}.hero{height:54vh;min-height:360px;max-height:560px;background:#222;position:relative}.hero img{width:100%;height:100%;object-fit:cover}.grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(0,0,0,.25) 55%,rgba(0,0,0,.95) 100%)}.overlay{position:absolute;left:18px;right:18px;bottom:16px}.name{font-size:28px;font-weight:850;line-height:1.05}.ko{color:#d9dde5;font-size:15px;margin-top:4px}.meta{color:#c5cbd5;font-size:14px;margin-top:5px}.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.badge{font-size:11px;font-weight:750;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.17)}.body{padding:16px 18px 18px}.why{font-size:15px;line-height:1.48;color:#e7ebf0}.ref{font-size:11px;color:#9ca3af;margin-top:8px}.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-top:14px}.actions button{border:0;border-radius:18px;padding:15px 8px;font-size:16px;font-weight:900}.no{background:#2b1b20;color:#ff7180}.maybe{background:#2a271a;color:#ffd866}.yes{background:#153024;color:#4ee49a}.detailsBtn{width:100%;margin-top:10px;background:#1c2430;border:1px solid #303a49;color:#e5e7eb;padding:12px;border-radius:14px;font-weight:750}
 .empty{text-align:center;padding:70px 20px;color:var(--muted)}.grid{display:grid;gap:10px;margin-top:12px}.mini{display:grid;grid-template-columns:95px 1fr;gap:12px;background:#151b23;border:1px solid var(--line);padding:8px;border-radius:17px}.mini img{width:95px;height:110px;object-fit:cover;border-radius:12px}.mini h3{margin:5px 0 2px;font-size:16px}.mini p{margin:3px 0;color:var(--muted);font-size:12px}.pill{display:inline-block;font-size:10px;padding:4px 7px;border:1px solid #3a4452;border-radius:999px;margin:4px 4px 0 0}.match{color:#52e49d;font-weight:900}
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:50;display:none;align-items:flex-end}.sheet.show{display:flex}.panel{background:#111720;border-radius:24px 24px 0 0;max-height:88vh;overflow:auto;width:100%;padding:18px 18px 28px;border-top:1px solid #303847}.panel h2{margin:2px 0}.row{padding:10px 0;border-bottom:1px solid #242c37}.row b{display:block;font-size:11px;text-transform:uppercase;color:#8893a3;letter-spacing:.06em;margin-bottom:3px}.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.links a,.links button{background:#202936;color:#fff;text-decoration:none;border:1px solid #344154;border-radius:12px;padding:10px 12px}.close{float:right;border:0;background:#242d39;color:#fff;border-radius:999px;width:34px;height:34px;font-size:18px}
-.tools{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tools button{background:#151b23;border:1px solid var(--line);color:#dbe1e8;border-radius:12px;padding:10px}
+.progress{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 2px;color:#9ca3af;font-size:12px}.bar{height:7px;flex:1;background:#1b2230;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:#f8fafc;border-radius:999px}.tools{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tools button{background:#151b23;border:1px solid var(--line);color:#dbe1e8;border-radius:12px;padding:10px}
 .toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);background:#f8fafc;color:#111827;padding:10px 14px;border-radius:999px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:70}.toast.show{opacity:1}
 footer{position:fixed;left:0;right:0;bottom:0;background:rgba(11,15,20,.94);backdrop-filter:blur(12px);border-top:1px solid #222a35;padding:9px 14px calc(9px + env(safe-area-inset-bottom));text-align:center;color:#778394;font-size:11px}
 @media(min-width:700px){.hero{height:620px}}
@@ -29,8 +33,9 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(11,15,20,.94);back
     <div class="nav"><button data-view="swipe" class="active">Swipe</button><button data-view="matches">Matches</button><button data-view="likes">Likes</button><button data-view="all">Alle</button></div>
   </div>
   <div class="filters"><select id="city"><option value="">Alle byer</option></select><select id="category"><option value="">Alle kategorier</option></select></div>
+  <div class="progress"><span id="progressText">0/0</span><div class="bar"><i id="progressBar" style="width:0%"></i></div><span id="matchCount">0 matches</span></div>
   <div id="content"></div>
-  <div class="tools"><button id="exportBtn">Eksportér valg</button><button id="importBtn">Importér valg</button><input id="importFile" type="file" accept=".json,application/json" hidden></div>
+  <div class="tools"><button id="exportBtn">Eksportér valg</button><button id="importBtn">Importér valg</button><button id="resetBtn">Nulstil min profil</button><button id="installBtn" style="display:none">Installér app</button><input id="importFile" type="file" accept=".json,application/json" hidden></div>
 </div>
 <div class="sheet" id="sheet"><div class="panel"><button class="close" id="closeSheet">×</button><div id="detail"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -56,6 +61,10 @@ function filtered(){let c=document.getElementById("city").value,k=document.getEl
 function remaining(){return filtered().filter(s=>!votes[person][s.id])}
 function isMatch(id){return votes.Mikkel[id]==="LIKE"&&votes.Partner[id]==="LIKE"}
 function render(){
+ const total=filtered().length,done=total-remaining().length,matches=filtered().filter(s=>isMatch(s.id)).length;
+ document.getElementById("progressText").textContent=`${done}/${total} swipet`;
+ document.getElementById("progressBar").style.width=(total?Math.round(done/total*100):0)+"%";
+ document.getElementById("matchCount").textContent=`${matches} match${matches===1?"":"es"}`;
  document.querySelectorAll(".profile button").forEach(b=>b.classList.toggle("active",b.dataset.person===person));
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
  const el=document.getElementById("content");
@@ -80,7 +89,12 @@ for(const c of [...new Set(spots.map(s=>s.category))]) category.innerHTML+=`<opt
 city.onchange=category.onchange=render;
 document.getElementById("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify({version:1,votes},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="korea-spot-scout-valg.json";a.click();URL.revokeObjectURL(a.href)};
 document.getElementById("importBtn").onclick=()=>document.getElementById("importFile").click();
+document.getElementById("resetBtn").onclick=()=>{if(confirm(`Nulstil alle ${person}s valg?`)){votes[person]={};save();toast("Profil nulstillet");render()}};
 document.getElementById("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d.votes){votes.Mikkel=d.votes.Mikkel||{};votes.Partner=d.votes.Partner||{};save();toast("Valg importeret");render()}}catch(_){toast("Kunne ikke importere filen")}};r.readAsText(f)};
+let installPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e;document.getElementById("installBtn").style.display="inline-block"});
+document.getElementById("installBtn").onclick=async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;document.getElementById("installBtn").style.display="none"}else{toast("Brug browsermenuen → Føj til hjemmeskærm")}};
+if("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
 render();
 </script>
 </body></html>
