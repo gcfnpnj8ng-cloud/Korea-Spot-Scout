@@ -21,7 +21,7 @@ Discovery-data bevarer de samlede kilde-URL'er, mention-id'er, evidensniveau, lo
 
 Discovery-bunken åbner som en fane inde i hovedappen og indlæses først, når `TikTok-fund` vælges. Den bruger de samme Mikkel/Louise-profiler og samme lokale valglager. Et `Nej` fjerner kortet fra den aktive bunke, mens filtrene `Mine likes`, `Mine måske`, `Frasorterede`, `Vores matches` og `Alle vurderinger` gør alle valg genfindelige.
 
-TikTok-fanen viser som standard kun kort, hvor stedet er kontrolleret manuelt på Naver Map eller krydstjekket mod en officiel/primær kilde. Google-adressematches ligger bag filteret `Google-match · afventer Naver` og kan derfor ikke snige sig ind i den almindelige swipebunke. En udtrukket adresse eller et genereret Maps-søgelink er ikke i sig selv en verifikation.
+TikTok-fanen viser som standard 3.352 swipekort: 20 steder kontrolleret manuelt på Naver Map eller mod en officiel/primær kilde samt 3.332 stærke Google-adressematches. Google-kortene er tydeligt mærket `Afventer Naver` og kan vælges eller frasorteres efter relevans, mens den manuelle lokationskontrol fortsætter. Filteret `20 Naver-/kildekontrollerede` viser kun den sikre bunke. En udtrukket adresse eller et genereret Maps-søgelink er ikke i sig selv en verifikation.
 
 Den kontrollerede TikTok-bunke indeholder nu 13 steder: Inwangsan, Igidae Coastal Walk, Gwangjang Market, Sewoon Plaza, MUSINSA EMPTY Seongsu, The Hyundai Seoul, Spa Land Centum City, Haeundae Sky Capsule, National Museum of Korea, Kakao Friends Hongdae, KT&G Sangsang Madang Busan, Times Square Yeongdeungpo og Seoul Arts Center Opera Theater. Kontrollen bekræfter stedet og placeringen; tidsfølsomt TikTok-indhold skal fortsat re-tjekkes.
 

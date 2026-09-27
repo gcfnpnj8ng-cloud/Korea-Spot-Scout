@@ -91,6 +91,7 @@ function matchesStatus(card,status){
 }
 function matchesLocation(card,location){
   if(location==="all")return true;
+  if(location==="reviewable")return card.locationStatus==="verified"||card.locationStatus==="naver_verified"||card.locationStatus==="google_checked";
   if(location==="usable")return card.locationStatus==="verified"||card.locationStatus==="naver_verified";
   return card.locationStatus===location;
 }
@@ -132,11 +133,11 @@ async function loadThumbnail(card){
 }
 function render(){
   const x=current();
-  const tikTok=data.filter(card=>card.kind==="tiktok"&&(card.locationStatus==="verified"||card.locationStatus==="naver_verified"));
+  const tikTok=data.filter(card=>card.kind==="tiktok"&&(card.locationStatus==="verified"||card.locationStatus==="naver_verified"||card.locationStatus==="google_checked"));
   const choices=tikTok.map(card=>votes[person][card.id]).filter(Boolean);
   const counts=choices.reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});
   els.yes.textContent=counts.LIKE||0; els.maybe.textContent=counts.MAYBE||0; els.no.textContent=counts.NO||0;
-  els.remaining.textContent=data.length?tikTok.filter(card=>!votes[person][card.id]).length:"—";
+  els.remaining.textContent=data.length?queue.length:"—";
   els.position.textContent=queue.length?`${index+1} / ${queue.length}`:"0 / 0";
   document.querySelectorAll(".profiles button").forEach(b=>b.classList.toggle("active",b.dataset.person===person));
   if(!x){els.title.textContent="Ingen kort matcher filtrene";els.korean.textContent="";els.caption.textContent="Prøv en anden vurdering, region eller kategori.";els.location.textContent="";els.sourceDetails.hidden=true;els.locationDetails.hidden=true;els.media.hidden=true;return;}
