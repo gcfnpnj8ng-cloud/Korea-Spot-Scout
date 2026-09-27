@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Korea Spot Swipe</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>.lead{max-width:560px;color:#607167;margin:.5rem 0 0}.headerActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.headerActions a{text-decoration:none;white-space:nowrap}.sourceLinks{display:flex;flex-wrap:wrap;gap:9px;margin-top:10px}.sourceLinks a{font-size:.82rem}details{margin-top:14px;color:#607167}summary{cursor:pointer;font-weight:750;color:#274537}@media(max-width:560px){.headerActions{justify-content:flex-start}}</style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div><p class="eyebrow">KOREA SPOT SCOUT · DISCOVERY</p><h1>Swipe TikTok-fund</h1><p class="lead">10.015 lokaliserbare leads. De er renset og deduplikeret, men endnu ikke alle faktaverificeret.</p></div>
+      <div class="headerActions"><a href="../" class="secondary">← Verificerede spots</a><button id="exportBtn" class="secondary">Eksportér valg</button></div>
+    </header>
+    <section class="stats" aria-label="Status">
+      <div><strong id="remaining">0</strong><span>tilbage</span></div>
+      <div><strong id="yesCount">0</strong><span>ja</span></div>
+      <div><strong id="maybeCount">0</strong><span>måske</span></div>
+      <div><strong id="noCount">0</strong><span>nej</span></div>
+    </section>
+    <section class="filters">
+      <select id="cityFilter" aria-label="Region"><option value="">Alle regioner</option></select>
+      <select id="categoryFilter" aria-label="Kategori"><option value="">Alle kategorier</option></select>
+      <select id="kindFilter" aria-label="Datakvalitet"><option value="">Alt</option><option value="curated">Kuraterede steder</option><option value="tiktok" selected>TikTok-leads</option></select>
+      <input id="search" type="search" placeholder="Søg i caption, sted eller hashtag">
+    </section>
+    <section class="card" id="card" aria-live="polite">
+      <div class="badges"><span id="kindBadge"></span><span id="signal"></span></div>
+      <p id="city" class="city"></p>
+      <h2 id="title"></h2>
+      <p id="koreanName" class="korean"></p>
+      <p id="caption" class="caption"></p>
+      <p id="location" class="location"></p>
+      <div class="meta"><span id="category"></span><span id="creator"></span><span id="evidence"></span><span id="sourceCount"></span></div>
+      <div class="links"><a id="naverLink" target="_blank" rel="noopener">Find på Naver Map ↗</a><a id="googleLink" target="_blank" rel="noopener">Find på Google Maps ↗</a><a id="sourceLink" target="_blank" rel="noopener">Åbn TikTok ↗</a></div>
+      <details id="sourceDetails"><summary>Vis alle TikTok-mentions</summary><div id="sourceLinks" class="sourceLinks"></div></details>
+    </section>
+    <section class="actions" aria-label="Swipevalg">
+      <button data-choice="no" class="no">✕<span>Nej</span></button>
+      <button data-choice="maybe" class="maybe">★<span>Måske</span></button>
+      <button data-choice="yes" class="yes">♥<span>Ja</span></button>
+    </section>
+    <div class="nav"><button id="undoBtn" class="secondary">Fortryd</button><span id="position"></span><button id="skipBtn" class="secondary">Spring over</button></div>
+    <p class="hint">Tastatur: ← nej · ↑ måske · → ja · Z fortryd</p>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
