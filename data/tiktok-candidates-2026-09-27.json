@@ -1,0 +1,38 @@
+{
+  "runDate": "2026-09-27",
+  "purpose": "Audit trail for TikTok and social-discovery candidates added to Korea Spot Scout.",
+  "method": {
+    "discoveryRule": "TikTok and other public social results identify a candidate; they do not verify practical facts.",
+    "cardRule": "A finished swipe card needs a stable identity, no duplicate in the current deck, and at least one official or primary source confirming the place and current practical details.",
+    "timeSensitiveRule": "Expired pop-ups stay rejected. Permanent pop-up hubs may be accepted but must be rechecked shortly before the 2027 trip.",
+    "scoreRule": "Only accepted candidates receive confidence and scout status in the swipe deck."
+  },
+  "accepted": [
+    {"id":"S011","name":"Inwangsan City Wall Hike","category":"Hike / nature","decision":"Official Seoul sources verified the permanent trail and core route facts."},
+    {"id":"S012","name":"Achasan Sunrise Hike","category":"Hike / nature","decision":"Official Seoul source verified access, address and transport; route metrics were cross-checked."},
+    {"id":"S013","name":"Igidae Coastal Walk","category":"Hike / nature","decision":"Busan Geopark verified the 3.95 km coastal route and approximate duration."},
+    {"id":"S014","name":"Jeju Olle Route 7","category":"Hike / nature","decision":"Jeju Olle and Visit Jeju verified the route."},
+    {"id":"S015","name":"Jeju Gotjawal Provincial Park","category":"Hike / nature","decision":"Official park and Visit Jeju sources verified the destination."},
+    {"id":"S016","name":"Seoul Folk Flea Market","category":"Secondhand","decision":"Visit Seoul and VISITKOREA verified the market, product zones, hours and closure day."},
+    {"id":"S017","name":"Gwangjang Vintage & Food Market","category":"Secondhand","decision":"Official tourism sources verified the market; vintage and food were merged into one card to avoid a location duplicate."},
+    {"id":"S018","name":"Sewoon Plaza Camera Hunt","category":"Secondhand","decision":"The complex and opening framework are official; inventory is explicitly marked variable."},
+    {"id":"S019","name":"MUSINSA EMPTY Seongsu","category":"Fashion / pop-ups","decision":"Official MUSINSA location and Visit Seoul verified the permanent concept store."},
+    {"id":"S020","name":"The Hyundai Seoul Pop-up Calendar","category":"Fashion / pop-ups","decision":"Accepted as a permanent pop-up hub, not as any specific 2026 event."},
+    {"id":"S021","name":"Spa Land Centum City","category":"Local experience","decision":"Current operator information verified hours, price framework and access rules."},
+    {"id":"S022","name":"Haeundae Blueline Park","category":"Coast / culture","decision":"The official operator verified stations, operations and booking."},
+    {"id":"S023","name":"Balwoo Gongyang Temple Food","category":"Food experience","decision":"Current Visit Seoul and VISITKOREA pages verified operator, location and practical details."}
+  ],
+  "rejected": [
+    {"candidate":"Seongsu as a general pop-up district","reason":"Duplicate of existing card S001; its TikTok signal is retained through the existing spot rather than creating a new card."},
+    {"candidate":"Mangwon Market as a TikTok food recommendation","reason":"Duplicate of existing card S003."},
+    {"candidate":"Huinnyeoul Culture Village and Bupyeong Kkangtong Market","reason":"Duplicates of existing Busan cards S004 and S006."},
+    {"candidate":"Named 2026 pop-ups at The Hyundai Seoul and Seongsu","reason":"Expired before the planned 2027 trip; only the permanent hubs remain as watch cards."},
+    {"candidate":"Unidentified vintage boutiques shown only in short-form videos","reason":"Insufficient stable name, address or primary-source verification."},
+    {"candidate":"Restaurants supported only by creator hype or a single rating page","reason":"Not enough independent verification to score as finished cards."}
+  ],
+  "limitations": [
+    "TikTok blocks systematic crawling, so coverage is not exhaustive.",
+    "TikTok search links and indexed channel pages are stored as discovery mentions, not factual authorities.",
+    "Hours, prices, closures, trail conditions and active pop-ups must be rechecked near the travel date."
+  ]
+}
