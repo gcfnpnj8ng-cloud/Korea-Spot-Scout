@@ -23384,6 +23384,36 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "naverSource": "https://map.naver.com/p/search/%ED%8E%8D%EC%A7%80%20%EC%84%B1%EC%88%98%20%EC%99%95%EC%8B%AD%EB%A6%AC%EB%A1%9C4%EA%B8%B8%205",
     "title": "펍지 성수",
     "address": "서울 성동구 왕십리로4길 5"
+  },
+  "LOC-a1d80dd4263f75ad": {
+    "checked": "2026-09-27",
+    "placeId": null,
+    "score": 1,
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/%EC%95%BC%ED%82%A4%ED%86%A0%EB%A6%AC%EC%8A%A4%EB%AF%B8",
+    "title": "야키토리스미",
+    "address": "서울 강남구 신사동 643-26"
+  },
+  "LOC-f3d245039467adb8": {
+    "checked": "2026-09-27",
+    "placeId": null,
+    "score": 1,
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/%EB%8C%80%ED%9D%A5%EB%AC%B8%EA%B5%AC%EC%82%AC",
+    "title": "대흥문구사",
+    "address": "서울 은평구 응암로 377 남곡빌딩 지하1층"
+  },
+  "LOC-9d33ae8af6692ee4": {
+    "checked": "2026-09-27",
+    "placeId": null,
+    "score": 1,
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/%EC%B2%AD%EC%95%84%ED%95%A8",
+    "title": "청아함",
+    "address": "서울 강서구 공항대로 206 나인스퀘어 6층 604호"
   }
 };
 window.KOREA_REMOVED_LOCATION_IDS=[
