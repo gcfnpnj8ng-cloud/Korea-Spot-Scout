@@ -1,4 +1,18 @@
 const data = window.KOREA_SWIPE_DATA || [];
+const locationVerifications=window.KOREA_LOCATION_VERIFICATIONS||{};
+for(const card of data){
+  const verification=locationVerifications[card.id];
+  card.locationStatus=verification?"verified":"unverified";
+  if(verification){
+    card.title=verification.name;
+    card.koreanName=verification.koreanName;
+    card.locationLabel=verification.locationLabel;
+    card.address=verification.locationLabel;
+    card.mapQuery=verification.mapQuery;
+    card.locationChecked=verification.checked;
+    card.locationSources=verification.sources;
+  }
+}
 const $ = (id) => document.getElementById(id);
 const els = {
   remaining:$("remaining"), yes:$("yesCount"), maybe:$("maybeCount"), no:$("noCount"), city:$("city"),
@@ -6,7 +20,8 @@ const els = {
   source:$("sourceLink"), signal:$("signal"), kind:$("kindBadge"), position:$("position"), location:$("location"),
   evidence:$("evidence"), sourceCount:$("sourceCount"), naver:$("naverLink"), google:$("googleLink"),
   sourceDetails:$("sourceDetails"), sourceLinks:$("sourceLinks"), thumbnail:$("thumbnail"),
-  thumbnailStatus:$("thumbnailStatus"), media:$("media")
+  thumbnailStatus:$("thumbnailStatus"), media:$("media"), locationStatus:$("locationStatus"),
+  locationDetails:$("locationDetails"), locationLinks:$("locationLinks")
 };
 const votes=JSON.parse(localStorage.getItem("kss-votes")||'{"Mikkel":{},"Louise":{}}');
 votes.Mikkel=votes.Mikkel||{};
@@ -41,7 +56,7 @@ for(const card of data){
 
 function save(){localStorage.setItem("kss-votes",JSON.stringify(votes));localStorage.setItem("kss-person",person);}
 function isMatch(id){return votes.Mikkel[id]==="LIKE"&&votes.Louise[id]==="LIKE";}
-function filters(){return {region:$("cityFilter").value,category:$("categoryFilter").value,kind:$("kindFilter").value,status:$("statusFilter").value,q:$("search").value.trim().toLowerCase()};}
+function filters(){return {region:$("cityFilter").value,category:$("categoryFilter").value,location:$("locationFilter").value,kind:$("kindFilter").value,status:$("statusFilter").value,q:$("search").value.trim().toLowerCase()};}
 function matchesStatus(card,status){
   if(status==="unreviewed") return !votes[person][card.id];
   if(status==="matches") return isMatch(card.id);
@@ -52,7 +67,7 @@ function rebuild(){
   const f=filters();
   const categoryPriority={"Vandring & natur":8,"Shopping & markeder":8,"Events & pop-ups":8,"Mad & restauranter":7,"Kultur & historie":6,"Oplevelser & seværdigheder":6,"Caféer & bagerier":4,"Overnatning":2};
   const evidencePriority={"Navn + adresse":5,"Præcis adresse":4,"Navngivet sted":3,"Navngivet listepunkt":2,"Specifikt søgbart navn":1,"Kurateret og verificeret":6};
-  queue=data.filter(x=>(!f.region||x.region===f.region)&&(!f.category||x.category===f.category)&&(!f.kind||x.kind===f.kind)&&matchesStatus(x,f.status)&&(!f.q||`${x.title} ${x.locationLabel||""} ${x.caption} ${(x.hashtags||[]).join(" ")}`.toLowerCase().includes(f.q)))
+  queue=data.filter(x=>(!f.region||x.region===f.region)&&(!f.category||x.category===f.category)&&(f.location==="all"||x.locationStatus===f.location)&&(!f.kind||x.kind===f.kind)&&matchesStatus(x,f.status)&&(!f.q||`${x.title} ${x.locationLabel||""} ${x.caption} ${(x.hashtags||[]).join(" ")}`.toLowerCase().includes(f.q)))
     .sort((a,b)=>((categoryPriority[b.category]||0)*100+(evidencePriority[b.evidence]||0)*10+(b.sourceCount||0))-((categoryPriority[a.category]||0)*100+(evidencePriority[a.evidence]||0)*10+(a.sourceCount||0)));
   index=Math.min(index,Math.max(0,queue.length-1));
   render();
@@ -86,14 +101,14 @@ async function loadThumbnail(card){
 }
 function render(){
   const x=current();
-  const tikTok=data.filter(card=>card.kind==="tiktok");
+  const tikTok=data.filter(card=>card.kind==="tiktok"&&card.locationStatus==="verified");
   const choices=tikTok.map(card=>votes[person][card.id]).filter(Boolean);
   const counts=choices.reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});
   els.yes.textContent=counts.LIKE||0; els.maybe.textContent=counts.MAYBE||0; els.no.textContent=counts.NO||0;
   els.remaining.textContent=data.length?tikTok.filter(card=>!votes[person][card.id]).length:"—";
   els.position.textContent=queue.length?`${index+1} / ${queue.length}`:"0 / 0";
   document.querySelectorAll(".profiles button").forEach(b=>b.classList.toggle("active",b.dataset.person===person));
-  if(!x){els.title.textContent="Ingen kort matcher filtrene";els.korean.textContent="";els.caption.textContent="Prøv en anden vurdering, region eller kategori.";els.location.textContent="";els.sourceDetails.hidden=true;els.media.hidden=true;return;}
+  if(!x){els.title.textContent="Ingen kort matcher filtrene";els.korean.textContent="";els.caption.textContent="Prøv en anden vurdering, region eller kategori.";els.location.textContent="";els.sourceDetails.hidden=true;els.locationDetails.hidden=true;els.media.hidden=true;return;}
   els.media.hidden=false;
   els.city.textContent=`${x.region} · ${x.city}`;
   els.title.textContent=x.title;
@@ -104,6 +119,7 @@ function render(){
   els.creator.textContent=x.creator;
   els.evidence.textContent=x.evidence||"";
   els.sourceCount.textContent=x.kind==="tiktok"?`${x.sourceCount||1} TikTok-kilde${(x.sourceCount||1)===1?"":"r"}`:"Kurateret";
+  els.locationStatus.textContent=x.locationStatus==="verified"?`Lokation kontrolleret ${x.locationChecked} · TikTok-indhold kan være ældre`:"Afventer lokationskontrol";
   els.signal.textContent=isMatch(x.id)?"♥ MATCH":x.signal;
   els.kind.textContent=x.kind==="curated"?"VERIFICERET":"TIKTOK-LEAD";
   const q=encodeURIComponent(x.mapQuery||x.locationLabel||x.title);
@@ -115,6 +131,9 @@ function render(){
   const sourceUrls=x.urls||[];
   els.sourceDetails.hidden=!sourceUrls.length;
   els.sourceLinks.innerHTML=sourceUrls.map((url,i)=>`<a href="${url}" target="_blank" rel="noopener">Mention ${i+1}</a>`).join("");
+  const locationSources=x.locationSources||[];
+  els.locationDetails.hidden=!locationSources.length;
+  els.locationLinks.innerHTML=locationSources.map((url,i)=>`<a href="${url}" target="_blank" rel="noopener">Kontrolkilde ${i+1}</a>`).join("");
   loadThumbnail(x);
 }
 
@@ -145,7 +164,7 @@ document.querySelectorAll(".profiles button").forEach(b=>b.addEventListener("cli
 $("undoBtn").addEventListener("click",undo);
 $("skipBtn").addEventListener("click",()=>{if(queue.length){index=(index+1)%queue.length;render();}});
 $("exportBtn").addEventListener("click",exportChoices);
-["cityFilter","categoryFilter","kindFilter","statusFilter"].forEach(id=>$(id).addEventListener("change",()=>{index=0;rebuild();}));
+["cityFilter","categoryFilter","locationFilter","kindFilter","statusFilter"].forEach(id=>$(id).addEventListener("change",()=>{index=0;rebuild();}));
 $("search").addEventListener("input",()=>{index=0;rebuild();});
 addEventListener("keydown",e=>{if(e.target.matches("input,select"))return;if(e.key==="ArrowLeft")choose("NO");if(e.key==="ArrowUp")choose("MAYBE");if(e.key==="ArrowRight")choose("LIKE");if(e.key.toLowerCase()==="z")undo();});
 save();
