@@ -17,6 +17,11 @@ let index=0;
 const history=[];
 const thumbnailCache=new Map();
 let thumbnailRequest=0;
+const dataWarning=$("dataWarning");
+if(data.length!==window.KOREA_SWIPE_EXPECTED){
+  dataWarning.hidden=false;
+  dataWarning.textContent=data.length?`Kun ${data.length.toLocaleString("da-DK")} af ${window.KOREA_SWIPE_EXPECTED.toLocaleString("da-DK")} kort blev indlæst. Genindlæs siden for at hente resten.`:"TikTok-kortene kunne ikke indlæses. Genindlæs siden; dine valg er stadig gemt.";
+}
 
 // Flyt eventuelle valg fra den tidligere, separate TikTok-bunke ind på den aktive profil.
 try{
@@ -85,7 +90,7 @@ function render(){
   const choices=tikTok.map(card=>votes[person][card.id]).filter(Boolean);
   const counts=choices.reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});
   els.yes.textContent=counts.LIKE||0; els.maybe.textContent=counts.MAYBE||0; els.no.textContent=counts.NO||0;
-  els.remaining.textContent=tikTok.filter(card=>!votes[person][card.id]).length;
+  els.remaining.textContent=data.length?tikTok.filter(card=>!votes[person][card.id]).length:"—";
   els.position.textContent=queue.length?`${index+1} / ${queue.length}`:"0 / 0";
   document.querySelectorAll(".profiles button").forEach(b=>b.classList.toggle("active",b.dataset.person===person));
   if(!x){els.title.textContent="Ingen kort matcher filtrene";els.korean.textContent="";els.caption.textContent="Prøv en anden vurdering, region eller kategori.";els.location.textContent="";els.sourceDetails.hidden=true;els.media.hidden=true;return;}
