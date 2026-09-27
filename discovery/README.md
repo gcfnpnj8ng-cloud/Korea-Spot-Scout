@@ -12,4 +12,6 @@
 
 Standardvisningen viser kun TikTok-leads og prioriterer brugerens interesser (natur/hikes, shopping/markeder, fashion/pop-ups, mad og kultur) sammen med evidensniveau og antal kilder. Prioriteringen er en gennemgangsrækkefølge, ikke en kvalitetsscore.
 
+Appen deler Mikkel/Louise-profiler og valg med den verificerede Tinder-visning. `Nej` fjerner et kort fra den aktive bunke, men det kan altid findes igen under `Frasorterede`; likes, måske-valg og fælles matches har tilsvarende filtre.
+
 TikTok-kort er stadig discovery-leads. Appen har fjernet de kort, der ikke kunne lokaliseres ud fra caption eller et specifikt navn. Et **Ja** eller **Måske** bør stadig verificeres med Naver Map, officielle kilder, aktuelle åbningstider og transportdata, før det promoveres til et færdigt `Spot`. De fjernede poster ligger i `removed-unlocatable.json`, så oprydningen kan gøres om.

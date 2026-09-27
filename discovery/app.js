@@ -1,5 +1,4 @@
 const data = window.KOREA_SWIPE_DATA || [];
-const state = JSON.parse(localStorage.getItem("koreaSpotSwipe.v1") || '{"choices":{},"history":[]}');
 const $ = (id) => document.getElementById(id);
 const els = {
   remaining:$("remaining"), yes:$("yesCount"), maybe:$("maybeCount"), no:$("noCount"), city:$("city"),
@@ -8,25 +7,44 @@ const els = {
   evidence:$("evidence"), sourceCount:$("sourceCount"), naver:$("naverLink"), google:$("googleLink"),
   sourceDetails:$("sourceDetails"), sourceLinks:$("sourceLinks")
 };
+const votes=JSON.parse(localStorage.getItem("kss-votes")||'{"Mikkel":{},"Louise":{}}');
+votes.Mikkel=votes.Mikkel||{};
+votes.Louise=votes.Louise||{};
+let person=localStorage.getItem("kss-person")||"Louise";
 let queue=[];
 let index=0;
+const history=[];
 
-// Bevar gamle swipevalg: et samlet sted arver det stærkeste valg fra sine TikTok-kilder.
+// Flyt eventuelle valg fra den tidligere, separate TikTok-bunke ind på den aktive profil.
+try{
+  const legacy=JSON.parse(localStorage.getItem("koreaSpotSwipe.v1")||'{"choices":{}}');
+  const mapping={yes:"LIKE",maybe:"MAYBE",no:"NO"};
+  for(const [id,choice] of Object.entries(legacy.choices||{})) if(!votes[person][id]&&mapping[choice]) votes[person][id]=mapping[choice];
+}catch(_){/* Ugyldige gamle lokale data ignoreres. */}
+
+// Et samlet sted arver det stærkeste tidligere valg fra sine underliggende TikTok-mentions.
 for(const card of data){
-  if(state.choices[card.id]) continue;
-  const old=(card.memberIds||[]).map(id=>state.choices[id]).filter(Boolean);
-  if(old.includes("yes")) state.choices[card.id]="yes";
-  else if(old.includes("maybe")) state.choices[card.id]="maybe";
-  else if(old.includes("no")) state.choices[card.id]="no";
+  if(votes[person][card.id]) continue;
+  const old=(card.memberIds||[]).map(id=>votes[person][id]).filter(Boolean);
+  if(old.includes("LIKE")) votes[person][card.id]="LIKE";
+  else if(old.includes("MAYBE")) votes[person][card.id]="MAYBE";
+  else if(old.includes("NO")) votes[person][card.id]="NO";
 }
 
-function save(){localStorage.setItem("koreaSpotSwipe.v1",JSON.stringify(state));}
-function filters(){return {region:$("cityFilter").value,category:$("categoryFilter").value,kind:$("kindFilter").value,q:$("search").value.trim().toLowerCase()};}
+function save(){localStorage.setItem("kss-votes",JSON.stringify(votes));localStorage.setItem("kss-person",person);}
+function isMatch(id){return votes.Mikkel[id]==="LIKE"&&votes.Louise[id]==="LIKE";}
+function filters(){return {region:$("cityFilter").value,category:$("categoryFilter").value,kind:$("kindFilter").value,status:$("statusFilter").value,q:$("search").value.trim().toLowerCase()};}
+function matchesStatus(card,status){
+  if(status==="unreviewed") return !votes[person][card.id];
+  if(status==="matches") return isMatch(card.id);
+  if(status==="all") return true;
+  return votes[person][card.id]===status;
+}
 function rebuild(){
   const f=filters();
   const categoryPriority={"Vandring & natur":8,"Shopping & markeder":8,"Events & pop-ups":8,"Mad & restauranter":7,"Kultur & historie":6,"Oplevelser & seværdigheder":6,"Caféer & bagerier":4,"Overnatning":2};
   const evidencePriority={"Navn + adresse":5,"Præcis adresse":4,"Navngivet sted":3,"Navngivet listepunkt":2,"Specifikt søgbart navn":1,"Kurateret og verificeret":6};
-  queue=data.filter(x=>(!f.region||x.region===f.region)&&(!f.category||x.category===f.category)&&(!f.kind||x.kind===f.kind)&&(!f.q||`${x.title} ${x.locationLabel||""} ${x.caption} ${(x.hashtags||[]).join(" ")}`.toLowerCase().includes(f.q)))
+  queue=data.filter(x=>(!f.region||x.region===f.region)&&(!f.category||x.category===f.category)&&(!f.kind||x.kind===f.kind)&&matchesStatus(x,f.status)&&(!f.q||`${x.title} ${x.locationLabel||""} ${x.caption} ${(x.hashtags||[]).join(" ")}`.toLowerCase().includes(f.q)))
     .sort((a,b)=>((categoryPriority[b.category]||0)*100+(evidencePriority[b.evidence]||0)*10+(b.sourceCount||0))-((categoryPriority[a.category]||0)*100+(evidencePriority[a.evidence]||0)*10+(a.sourceCount||0)));
   index=Math.min(index,Math.max(0,queue.length-1));
   render();
@@ -34,12 +52,14 @@ function rebuild(){
 function current(){return queue[index];}
 function render(){
   const x=current();
-  const activeChoices=data.map(card=>state.choices[card.id]).filter(Boolean);
-  const counts=activeChoices.reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});
-  els.yes.textContent=counts.yes||0; els.maybe.textContent=counts.maybe||0; els.no.textContent=counts.no||0;
-  els.remaining.textContent=queue.filter(card=>!state.choices[card.id]).length;
+  const tikTok=data.filter(card=>card.kind==="tiktok");
+  const choices=tikTok.map(card=>votes[person][card.id]).filter(Boolean);
+  const counts=choices.reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});
+  els.yes.textContent=counts.LIKE||0; els.maybe.textContent=counts.MAYBE||0; els.no.textContent=counts.NO||0;
+  els.remaining.textContent=tikTok.filter(card=>!votes[person][card.id]).length;
   els.position.textContent=queue.length?`${index+1} / ${queue.length}`:"0 / 0";
-  if(!x){els.title.textContent="Ingen kort matcher filtrene";els.caption.textContent="Prøv at nulstille et filter.";return;}
+  document.querySelectorAll(".profiles button").forEach(b=>b.classList.toggle("active",b.dataset.person===person));
+  if(!x){els.title.textContent="Ingen kort matcher filtrene";els.korean.textContent="";els.caption.textContent="Prøv en anden vurdering, region eller kategori.";els.location.textContent="";els.sourceDetails.hidden=true;return;}
   els.city.textContent=`${x.region} · ${x.city}`;
   els.title.textContent=x.title;
   els.korean.textContent=x.koreanName||"";
@@ -49,8 +69,8 @@ function render(){
   els.creator.textContent=x.creator;
   els.evidence.textContent=x.evidence||"";
   els.sourceCount.textContent=x.kind==="tiktok"?`${x.sourceCount||1} TikTok-kilde${(x.sourceCount||1)===1?"":"r"}`:"Kurateret";
-  els.signal.textContent=x.signal;
-  els.kind.textContent=x.kind==="curated"?"KURATERET":"LOKALISERET";
+  els.signal.textContent=isMatch(x.id)?"♥ MATCH":x.signal;
+  els.kind.textContent=x.kind==="curated"?"VERIFICERET":"TIKTOK-LEAD";
   const q=encodeURIComponent(x.mapQuery||x.locationLabel||x.title);
   els.naver.href=`https://map.naver.com/p/search/${q}`;
   els.google.href=`https://www.google.com/maps/search/?api=1&query=${q}`;
@@ -61,26 +81,34 @@ function render(){
   els.sourceDetails.hidden=!sourceUrls.length;
   els.sourceLinks.innerHTML=sourceUrls.map((url,i)=>`<a href="${url}" target="_blank" rel="noopener">Mention ${i+1}</a>`).join("");
 }
-function choose(choice){const x=current();if(!x)return;state.history.push({id:x.id,previous:state.choices[x.id]||null});state.choices[x.id]=choice;save();if(index<queue.length-1)index++;else rebuild();render();}
-function undo(){const h=state.history.pop();if(!h)return;if(h.previous)state.choices[h.id]=h.previous;else delete state.choices[h.id];const i=queue.findIndex(x=>x.id===h.id);if(i>=0)index=i;save();render();}
+function choose(choice){
+  const x=current();if(!x)return;
+  history.push({id:x.id,previous:votes[person][x.id]||null,person});
+  votes[person][x.id]=choice;save();
+  if($("statusFilter").value==="unreviewed") rebuild(); else {if(index<queue.length-1)index++;render();}
+}
+function undo(){
+  const h=history.pop();if(!h)return;
+  if(h.previous)votes[h.person][h.id]=h.previous;else delete votes[h.person][h.id];
+  person=h.person;save();rebuild();
+}
 function exportChoices(){
-  const selected=data.filter(x=>state.choices[x.id]).map(x=>({...x,choice:state.choices[x.id]}));
-  const cols=["choice","kind","id","title","koreanName","region","city","category","locationLabel","address","evidence","sourceCount","mapQuery","url","caption"];
+  const selected=data.filter(x=>votes[person][x.id]).map(x=>({...x,choice:votes[person][x.id],person}));
+  const cols=["person","choice","kind","id","title","koreanName","region","city","category","locationLabel","address","evidence","sourceCount","mapQuery","url","caption"];
   const esc=v=>`"${String(v??"").replaceAll('"','""')}"`;
   const csv=[cols.join(","),...selected.map(r=>cols.map(c=>esc(r[c])).join(","))].join("\r\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="korea-swipe-valg.csv";a.click();URL.revokeObjectURL(a.href);
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`korea-swipe-${person.toLowerCase()}.csv`;a.click();URL.revokeObjectURL(a.href);
 }
 
-const regions=[...new Set(data.map(x=>x.region))].sort();
-const categories=[...new Set(data.map(x=>x.category))].sort();
-for(const v of regions)$("cityFilter").add(new Option(v,v));
-for(const v of categories)$("categoryFilter").add(new Option(v,v));
-document.querySelectorAll("[data-choice]").forEach(b=>b.addEventListener("click",()=>choose(b.dataset.choice)));
+for(const v of [...new Set(data.map(x=>x.region))].sort()) $("cityFilter").add(new Option(v,v));
+for(const v of [...new Set(data.map(x=>x.category))].sort()) $("categoryFilter").add(new Option(v,v));
+document.querySelectorAll("[data-choice]").forEach(b=>b.addEventListener("click",()=>choose({yes:"LIKE",maybe:"MAYBE",no:"NO"}[b.dataset.choice])));
+document.querySelectorAll(".profiles button").forEach(b=>b.addEventListener("click",()=>{person=b.dataset.person;index=0;save();rebuild();}));
 $("undoBtn").addEventListener("click",undo);
 $("skipBtn").addEventListener("click",()=>{if(queue.length){index=(index+1)%queue.length;render();}});
 $("exportBtn").addEventListener("click",exportChoices);
-["cityFilter","categoryFilter","kindFilter"].forEach(id=>$(id).addEventListener("change",()=>{index=0;rebuild();}));
+["cityFilter","categoryFilter","kindFilter","statusFilter"].forEach(id=>$(id).addEventListener("change",()=>{index=0;rebuild();}));
 $("search").addEventListener("input",()=>{index=0;rebuild();});
-addEventListener("keydown",e=>{if(e.target.matches("input,select"))return;if(e.key==="ArrowLeft")choose("no");if(e.key==="ArrowUp")choose("maybe");if(e.key==="ArrowRight")choose("yes");if(e.key.toLowerCase()==="z")undo();});
+addEventListener("keydown",e=>{if(e.target.matches("input,select"))return;if(e.key==="ArrowLeft")choose("NO");if(e.key==="ArrowUp")choose("MAYBE");if(e.key==="ArrowRight")choose("LIKE");if(e.key.toLowerCase()==="z")undo();});
 save();
 rebuild();
