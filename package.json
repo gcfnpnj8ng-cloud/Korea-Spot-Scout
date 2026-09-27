@@ -1,0 +1,10 @@
+{
+  "name": "korea-spot-scout",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "verify:places": "node scripts/verify-google-places.mjs",
+    "verify:places:dry": "node scripts/verify-google-places.mjs --dry-run"
+  }
+}
+

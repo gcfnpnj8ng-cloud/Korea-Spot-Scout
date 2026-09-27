@@ -29,6 +29,17 @@ TikTok-data er opdelt i mindre bidder, så en ustabil forbindelse ikke efterlade
 
 Det aktuelle TikTok-kort henter sit previewbillede via TikToks offentlige oEmbed-data. Billeder indlæses ét ad gangen og caches kun under besøget; private eller fjernede opslag viser en neutral fallback.
 
+## Automatisk lokationskontrol uden Naver Cloud
+
+Naver Cloud Platform kan ikke oprettes for den aktuelle danske konto. Appen bruger derfor fortsat almindelige Naver Map-søgelinks, som ikke kræver login eller API-nøgle. Automatisk kontrol sker i stedet med Google Places API (New) som en lokal byggeproces; API-nøglen bliver aldrig lagt i GitHub Pages.
+
+1. Opret en ny Google-nøgle, begræns den til **Places API (New)** og sæt en lav budget-/forbrugsalarm. En nøgle, der har været delt i chat, skal erstattes.
+2. Kopiér `.env.example` til `.env` og indsæt nøglen lokalt.
+3. Kontrollér omkostningsomfanget uden API-kald med `npm run verify:places:dry`.
+4. Kør små batches med `npm run verify:places -- --limit=25`. Vores egen matchafgørelse og tilladte Place ID'er caches i den ignorerede `work/`-mappe, så samme kort ikke faktureres igen ved næste kørsel. Navne, adresser og andet Google Places-indhold gemmes ikke.
+
+Kun konservative matches i Sydkorea tilføjes `discovery/google-place-verifications.js`. De vises som **Fundet på Google Maps**, ikke som fuldt verificerede. Et sted promoveres først til den verificerede hovedbunke efter kontrol mod en officiel eller anden primær kilde.
+
 Kilder og discovery-mentions vises separat på hvert kort. Kandidater, dubletter og frasorterede fund fra seneste gennemgang ligger i `data/tiktok-candidates-2026-09-27.json`.
 
 Research-masteren ligger i Google Sheet'et "Korea Spot Database" under Rejser → Sydkorea 2027.

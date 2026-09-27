@@ -1,8 +1,10 @@
 const data = window.KOREA_SWIPE_DATA || [];
 const locationVerifications=window.KOREA_LOCATION_VERIFICATIONS||{};
+const googlePlaceVerifications=window.KOREA_GOOGLE_PLACE_VERIFICATIONS||{};
 for(const card of data){
   const verification=locationVerifications[card.id];
-  card.locationStatus=verification?"verified":"unverified";
+  const googleVerification=googlePlaceVerifications[card.id];
+  card.locationStatus=verification?"verified":googleVerification?"map_verified":"unverified";
   if(verification){
     card.title=verification.name;
     card.koreanName=verification.koreanName;
@@ -14,6 +16,11 @@ for(const card of data){
     if(verification.city) card.city=verification.city;
     card.locationChecked=verification.checked;
     card.locationSources=verification.sources;
+  }else if(googleVerification){
+    card.locationChecked=googleVerification.checked;
+    card.locationSources=[googleVerification.source];
+    card.googlePlaceId=googleVerification.placeId;
+    card.googleMatchScore=googleVerification.score;
   }
 }
 const $ = (id) => document.getElementById(id);
@@ -66,11 +73,16 @@ function matchesStatus(card,status){
   if(status==="all") return true;
   return votes[person][card.id]===status;
 }
+function matchesLocation(card,location){
+  if(location==="all")return true;
+  if(location==="checked")return card.locationStatus==="verified"||card.locationStatus==="map_verified";
+  return card.locationStatus===location;
+}
 function rebuild(){
   const f=filters();
   const categoryPriority={"Vandring & natur":8,"Shopping & markeder":8,"Events & pop-ups":8,"Mad & restauranter":7,"Kultur & historie":6,"Oplevelser & seværdigheder":6,"Caféer & bagerier":4,"Overnatning":2};
   const evidencePriority={"Navn + adresse":5,"Præcis adresse":4,"Navngivet sted":3,"Navngivet listepunkt":2,"Specifikt søgbart navn":1,"Kurateret og verificeret":6};
-  queue=data.filter(x=>(!f.region||x.region===f.region)&&(!f.category||x.category===f.category)&&(f.location==="all"||x.locationStatus===f.location)&&(!f.kind||x.kind===f.kind)&&matchesStatus(x,f.status)&&(!f.q||`${x.title} ${x.locationLabel||""} ${x.caption} ${(x.hashtags||[]).join(" ")}`.toLowerCase().includes(f.q)))
+  queue=data.filter(x=>(!f.region||x.region===f.region)&&(!f.category||x.category===f.category)&&matchesLocation(x,f.location)&&(!f.kind||x.kind===f.kind)&&matchesStatus(x,f.status)&&(!f.q||`${x.title} ${x.locationLabel||""} ${x.caption} ${(x.hashtags||[]).join(" ")}`.toLowerCase().includes(f.q)))
     .sort((a,b)=>((categoryPriority[b.category]||0)*100+(evidencePriority[b.evidence]||0)*10+(b.sourceCount||0))-((categoryPriority[a.category]||0)*100+(evidencePriority[a.evidence]||0)*10+(a.sourceCount||0)));
   index=Math.min(index,Math.max(0,queue.length-1));
   render();
@@ -104,7 +116,7 @@ async function loadThumbnail(card){
 }
 function render(){
   const x=current();
-  const tikTok=data.filter(card=>card.kind==="tiktok"&&card.locationStatus==="verified");
+  const tikTok=data.filter(card=>card.kind==="tiktok"&&(card.locationStatus==="verified"||card.locationStatus==="map_verified"));
   const choices=tikTok.map(card=>votes[person][card.id]).filter(Boolean);
   const counts=choices.reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});
   els.yes.textContent=counts.LIKE||0; els.maybe.textContent=counts.MAYBE||0; els.no.textContent=counts.NO||0;
@@ -122,9 +134,9 @@ function render(){
   els.creator.textContent=x.creator;
   els.evidence.textContent=x.evidence||"";
   els.sourceCount.textContent=x.kind==="tiktok"?`${x.sourceCount||1} TikTok-kilde${(x.sourceCount||1)===1?"":"r"}`:"Kurateret";
-  els.locationStatus.textContent=x.locationStatus==="verified"?`Lokation kontrolleret ${x.locationChecked} · TikTok-indhold kan være ældre`:"Afventer lokationskontrol";
+  els.locationStatus.textContent=x.locationStatus==="verified"?`Fuldt verificeret ${x.locationChecked} · TikTok-indhold kan være ældre`:x.locationStatus==="map_verified"?`Fundet på Google Maps ${x.locationChecked} · ikke fuldt kildeverificeret`:"Afventer lokationskontrol";
   els.signal.textContent=isMatch(x.id)?"♥ MATCH":x.signal;
-  els.kind.textContent=x.kind==="curated"?"VERIFICERET":"TIKTOK-LEAD";
+  els.kind.textContent=x.kind==="curated"?"VERIFICERET":x.locationStatus==="verified"?"TIKTOK-VERIFICERET":x.locationStatus==="map_verified"?"TIKTOK-KORTKONTROLLERET":"TIKTOK-LEAD";
   const q=encodeURIComponent(x.mapQuery||x.locationLabel||x.title);
   els.naver.href=`https://map.naver.com/p/search/${q}`;
   els.google.href=`https://www.google.com/maps/search/?api=1&query=${q}`;

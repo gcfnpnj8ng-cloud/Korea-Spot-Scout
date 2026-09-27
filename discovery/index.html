@@ -24,7 +24,7 @@
     <section class="filters">
       <select id="cityFilter" aria-label="Region"><option value="">Alle regioner</option></select>
       <select id="categoryFilter" aria-label="Kategori"><option value="">Alle kategorier</option></select>
-      <select id="locationFilter" aria-label="Lokationskontrol"><option value="verified" selected>Lokation verificeret</option><option value="unverified">Afventer lokationskontrol</option><option value="all">Alle lokationsstatusser</option></select>
+      <select id="locationFilter" aria-label="Lokationskontrol"><option value="checked" selected>Kortkontrolleret</option><option value="verified">Fuldt verificeret</option><option value="map_verified">Fundet på Google Maps</option><option value="unverified">Afventer lokationskontrol</option><option value="all">Alle lokationsstatusser</option></select>
       <select id="kindFilter" aria-label="Datakvalitet"><option value="">Alt</option><option value="curated">Kuraterede steder</option><option value="tiktok" selected>TikTok-leads</option></select>
       <select id="statusFilter" aria-label="Min vurdering"><option value="unreviewed" selected>Ikke vurderet</option><option value="LIKE">Mine likes</option><option value="MAYBE">Mine måske</option><option value="NO">Frasorterede</option><option value="matches">Vores matches</option><option value="all">Alle vurderinger</option></select>
       <input id="search" type="search" placeholder="Søg i caption, sted eller hashtag">
@@ -74,6 +74,7 @@
   <script src="chunks/data-019.js"></script>
   <script src="chunks/data-020.js"></script>
   <script src="verified-locations.js"></script>
+  <script src="google-place-verifications.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
