@@ -21,6 +21,8 @@ Discovery-data bevarer de samlede kilde-URL'er, mention-id'er, evidensniveau, lo
 
 Discovery-bunken åbner som en fane inde i hovedappen og indlæses først, når `TikTok-fund` vælges. Den bruger de samme Mikkel/Louise-profiler og samme lokale valglager. Et `Nej` fjerner kortet fra den aktive bunke, mens filtrene `Mine likes`, `Mine måske`, `Frasorterede`, `Vores matches` og `Alle vurderinger` gør alle valg genfindelige.
 
+Det aktuelle TikTok-kort henter sit previewbillede via TikToks offentlige oEmbed-data. Billeder indlæses ét ad gangen og caches kun under besøget; private eller fjernede opslag viser en neutral fallback.
+
 Kilder og discovery-mentions vises separat på hvert kort. Kandidater, dubletter og frasorterede fund fra seneste gennemgang ligger i `data/tiktok-candidates-2026-09-27.json`.
 
 Research-masteren ligger i Google Sheet'et "Korea Spot Database" under Rejser → Sydkorea 2027.

@@ -5,7 +5,8 @@ const els = {
   title:$("title"), korean:$("koreanName"), caption:$("caption"), category:$("category"), creator:$("creator"),
   source:$("sourceLink"), signal:$("signal"), kind:$("kindBadge"), position:$("position"), location:$("location"),
   evidence:$("evidence"), sourceCount:$("sourceCount"), naver:$("naverLink"), google:$("googleLink"),
-  sourceDetails:$("sourceDetails"), sourceLinks:$("sourceLinks")
+  sourceDetails:$("sourceDetails"), sourceLinks:$("sourceLinks"), thumbnail:$("thumbnail"),
+  thumbnailStatus:$("thumbnailStatus"), media:$("media")
 };
 const votes=JSON.parse(localStorage.getItem("kss-votes")||'{"Mikkel":{},"Louise":{}}');
 votes.Mikkel=votes.Mikkel||{};
@@ -14,6 +15,8 @@ let person=localStorage.getItem("kss-person")||"Louise";
 let queue=[];
 let index=0;
 const history=[];
+const thumbnailCache=new Map();
+let thumbnailRequest=0;
 
 // Flyt eventuelle valg fra den tidligere, separate TikTok-bunke ind på den aktive profil.
 try{
@@ -50,6 +53,32 @@ function rebuild(){
   render();
 }
 function current(){return queue[index];}
+async function loadThumbnail(card){
+  const request=++thumbnailRequest;
+  els.thumbnail.hidden=true;
+  els.thumbnail.removeAttribute("src");
+  els.thumbnailStatus.hidden=false;
+  els.thumbnailStatus.textContent=card.url?"Henter TikTok-billede…":"Intet TikTok-billede";
+  if(!card.url)return;
+  try{
+    let thumbnail=thumbnailCache.get(card.url);
+    if(!thumbnail){
+      const response=await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(card.url)}`);
+      if(!response.ok)throw new Error("TikTok preview unavailable");
+      thumbnail=(await response.json()).thumbnail_url;
+      if(!thumbnail)throw new Error("No thumbnail");
+      thumbnailCache.set(card.url,thumbnail);
+    }
+    if(request!==thumbnailRequest||current()?.id!==card.id)return;
+    els.thumbnail.alt=`TikTok-preview for ${card.title}`;
+    els.thumbnail.src=thumbnail;
+    els.thumbnail.hidden=false;
+    els.thumbnailStatus.hidden=true;
+  }catch(_){
+    if(request!==thumbnailRequest)return;
+    els.thumbnailStatus.textContent="Previewbillede ikke tilgængeligt";
+  }
+}
 function render(){
   const x=current();
   const tikTok=data.filter(card=>card.kind==="tiktok");
@@ -59,7 +88,8 @@ function render(){
   els.remaining.textContent=tikTok.filter(card=>!votes[person][card.id]).length;
   els.position.textContent=queue.length?`${index+1} / ${queue.length}`:"0 / 0";
   document.querySelectorAll(".profiles button").forEach(b=>b.classList.toggle("active",b.dataset.person===person));
-  if(!x){els.title.textContent="Ingen kort matcher filtrene";els.korean.textContent="";els.caption.textContent="Prøv en anden vurdering, region eller kategori.";els.location.textContent="";els.sourceDetails.hidden=true;return;}
+  if(!x){els.title.textContent="Ingen kort matcher filtrene";els.korean.textContent="";els.caption.textContent="Prøv en anden vurdering, region eller kategori.";els.location.textContent="";els.sourceDetails.hidden=true;els.media.hidden=true;return;}
+  els.media.hidden=false;
   els.city.textContent=`${x.region} · ${x.city}`;
   els.title.textContent=x.title;
   els.korean.textContent=x.koreanName||"";
@@ -80,7 +110,10 @@ function render(){
   const sourceUrls=x.urls||[];
   els.sourceDetails.hidden=!sourceUrls.length;
   els.sourceLinks.innerHTML=sourceUrls.map((url,i)=>`<a href="${url}" target="_blank" rel="noopener">Mention ${i+1}</a>`).join("");
+  loadThumbnail(x);
 }
+
+els.thumbnail.addEventListener("error",()=>{els.thumbnail.hidden=true;els.thumbnailStatus.hidden=false;els.thumbnailStatus.textContent="Previewbillede ikke tilgængeligt";});
 function choose(choice){
   const x=current();if(!x)return;
   history.push({id:x.id,previous:votes[person][x.id]||null,person});

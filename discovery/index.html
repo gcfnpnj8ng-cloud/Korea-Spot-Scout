@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Korea Spot Swipe</title>
   <link rel="stylesheet" href="styles.css">
-  <style>.lead{max-width:560px;color:#607167;margin:.5rem 0 0}.headerActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.headerActions a{text-decoration:none;white-space:nowrap}.profiles{display:flex;gap:5px;background:#dfe9e1;padding:4px;border-radius:999px}.profiles button{border:0;background:transparent;color:#537061;padding:7px 10px;border-radius:999px;font-weight:800}.profiles button.active{background:#153f2e;color:#d4f56c}.sourceLinks{display:flex;flex-wrap:wrap;gap:9px;margin-top:10px}.sourceLinks a{font-size:.82rem}details{margin-top:14px;color:#607167}summary{cursor:pointer;font-weight:750;color:#274537}.filterNote{margin:-2px 0 14px;color:#607167;font-size:.86rem}body.embedded header{display:none}body.embedded .shell{padding-top:10px}@media(max-width:560px){header{flex-direction:column}.headerActions{justify-content:flex-start}}</style>
+  <style>.lead{max-width:560px;color:#607167;margin:.5rem 0 0}.headerActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.headerActions a{text-decoration:none;white-space:nowrap}.profiles{display:flex;gap:5px;background:#dfe9e1;padding:4px;border-radius:999px}.profiles button{border:0;background:transparent;color:#537061;padding:7px 10px;border-radius:999px;font-weight:800}.profiles button.active{background:#153f2e;color:#d4f56c}.media{display:grid;place-items:center;min-height:180px;margin:18px 0 2px;border-radius:20px;overflow:hidden;background:#e4ece5;color:#607167}.media img{display:block;width:100%;max-height:480px;object-fit:cover}.media img[hidden]{display:none}.sourceLinks{display:flex;flex-wrap:wrap;gap:9px;margin-top:10px}.sourceLinks a{font-size:.82rem}details{margin-top:14px;color:#607167}summary{cursor:pointer;font-weight:750;color:#274537}.filterNote{margin:-2px 0 14px;color:#607167;font-size:.86rem}body.embedded header{display:none}body.embedded .shell{padding-top:10px}@media(max-width:560px){header{flex-direction:column}.headerActions{justify-content:flex-start}}</style>
 </head>
 <body>
   <script>if(new URLSearchParams(location.search).has("embed"))document.body.classList.add("embedded")</script>
@@ -30,6 +30,7 @@
     <p class="filterNote">Et “Nej” gemmes på din profil og forsvinder fra bunken. Vælg “Frasorterede” for at se eller ændre dem senere.</p>
     <section class="card" id="card" aria-live="polite">
       <div class="badges"><span id="kindBadge"></span><span id="signal"></span></div>
+      <div class="media" id="media"><img id="thumbnail" alt="" hidden><span id="thumbnailStatus">Henter TikTok-billede…</span></div>
       <p id="city" class="city"></p>
       <h2 id="title"></h2>
       <p id="koreanName" class="korean"></p>
