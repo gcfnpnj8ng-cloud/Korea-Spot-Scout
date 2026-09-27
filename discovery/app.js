@@ -9,6 +9,9 @@ for(const card of data){
     card.locationLabel=verification.locationLabel;
     card.address=verification.locationLabel;
     card.mapQuery=verification.mapQuery;
+    if(verification.category) card.category=verification.category;
+    if(verification.region) card.region=verification.region;
+    if(verification.city) card.city=verification.city;
     card.locationChecked=verification.checked;
     card.locationSources=verification.sources;
   }

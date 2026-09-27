@@ -23,7 +23,7 @@ Discovery-bunken åbner som en fane inde i hovedappen og indlæses først, når 
 
 TikTok-fanen viser som standard kun kort, hvor stedet er matchet til en konkret lokation og krydstjekket mod en officiel eller primær kilde. Uverificerede TikTok-leads ligger bag det eksplicitte filter `Afventer lokationskontrol`; en udtrukket adresse eller et genereret Maps-søgelink er ikke i sig selv en verifikation.
 
-Den første kontrollerede TikTok-bunke indeholder 8 steder: Inwangsan, Igidae Coastal Walk, Gwangjang Market, Sewoon Plaza, MUSINSA EMPTY Seongsu, The Hyundai Seoul, Spa Land Centum City og Haeundae Sky Capsule. Kontrollen bekræfter stedet og placeringen; tidsfølsomt TikTok-indhold skal fortsat re-tjekkes.
+Den kontrollerede TikTok-bunke indeholder nu 13 steder: Inwangsan, Igidae Coastal Walk, Gwangjang Market, Sewoon Plaza, MUSINSA EMPTY Seongsu, The Hyundai Seoul, Spa Land Centum City, Haeundae Sky Capsule, National Museum of Korea, Kakao Friends Hongdae, KT&G Sangsang Madang Busan, Times Square Yeongdeungpo og Seoul Arts Center Opera Theater. Kontrollen bekræfter stedet og placeringen; tidsfølsomt TikTok-indhold skal fortsat re-tjekkes.
 
 TikTok-data er opdelt i mindre bidder, så en ustabil forbindelse ikke efterlader fanen med en tom bunke. Hvis en bid mangler, vises en tydelig advarsel i stedet for misvisende nuller.
 
