@@ -93,4 +93,3 @@ for(let offset=0;offset<batch.length;offset+=concurrency){
 }
 const accepted=Object.values(results).filter(result=>result.accepted).length;
 console.log(`${Object.keys(results).length} adressekort kontrolleret; ${accepted} har et stærkt Google-adressematch.`);
-
