@@ -19,7 +19,7 @@ Den separate `discovery/`-bunke indeholder hele den tidligere rensede TikTok-pip
 
 Discovery-data bevarer de samlede kilde-URL'er, mention-id'er, evidensniveau, lokationslabel og mapsøgning. Kun hovedbunkens 23 kort regnes som verificerede.
 
-Discovery-bunken bruger de samme Mikkel/Louise-profiler og samme lokale valglager som hovedappen. Et `Nej` fjerner kortet fra den aktive bunke, mens filtrene `Mine likes`, `Mine måske`, `Frasorterede`, `Vores matches` og `Alle vurderinger` gør alle valg genfindelige.
+Discovery-bunken åbner som en fane inde i hovedappen og indlæses først, når `TikTok-fund` vælges. Den bruger de samme Mikkel/Louise-profiler og samme lokale valglager. Et `Nej` fjerner kortet fra den aktive bunke, mens filtrene `Mine likes`, `Mine måske`, `Frasorterede`, `Vores matches` og `Alle vurderinger` gør alle valg genfindelige.
 
 Kilder og discovery-mentions vises separat på hvert kort. Kandidater, dubletter og frasorterede fund fra seneste gennemgang ligger i `data/tiktok-candidates-2026-09-27.json`.
 

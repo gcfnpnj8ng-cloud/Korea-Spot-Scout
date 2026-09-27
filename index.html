@@ -21,6 +21,7 @@
 .empty{text-align:center;padding:70px 20px;color:var(--muted)}.grid{display:grid;gap:10px;margin-top:12px}.mini{display:grid;grid-template-columns:95px 1fr;gap:12px;background:#151b23;border:1px solid var(--line);padding:8px;border-radius:17px}.mini img{width:95px;height:110px;object-fit:cover;border-radius:12px}.mini h3{margin:5px 0 2px;font-size:16px}.mini p{margin:3px 0;color:var(--muted);font-size:12px}.pill{display:inline-block;font-size:10px;padding:4px 7px;border:1px solid #3a4452;border-radius:999px;margin:4px 4px 0 0}.match{color:#52e49d;font-weight:900}
 .sheet{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:50;display:none;align-items:flex-end}.sheet.show{display:flex}.panel{background:#111720;border-radius:24px 24px 0 0;max-height:88vh;overflow:auto;width:100%;padding:18px 18px 28px;border-top:1px solid #303847}.panel h2{margin:2px 0}.row{padding:10px 0;border-bottom:1px solid #242c37}.row b{display:block;font-size:11px;text-transform:uppercase;color:#8893a3;letter-spacing:.06em;margin-bottom:3px}.links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.links a,.links button{background:#202936;color:#fff;text-decoration:none;border:1px solid #344154;border-radius:12px;padding:10px 12px}.close{float:right;border:0;background:#242d39;color:#fff;border-radius:999px;width:34px;height:34px;font-size:18px}
 .researchCard{background:linear-gradient(180deg,#161d27,#121821);border:1px solid var(--line);border-radius:20px;padding:15px;margin-top:12px}.researchCard h3{margin:0 0 6px}.researchCard p{color:#c5cbd5;line-height:1.45;font-size:13px}.sourceTier{display:grid;grid-template-columns:46px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid #252d38}.sourceTier:last-child{border-bottom:0}.tierBadge{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:13px;background:#202a37;font-weight:900}.sourceLinks{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.sourceLinks a{font-size:12px;color:#e9edf3;text-decoration:none;border:1px solid #344154;background:#1b2430;padding:7px 9px;border-radius:999px}.sourceQuality{display:inline-block;margin-left:6px;font-size:10px;padding:3px 6px;border-radius:999px;background:#1c2c24;color:#67e7a3;border:1px solid #28513b}.progress{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 2px;color:#9ca3af;font-size:12px}.bar{height:7px;flex:1;background:#1b2230;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:#f8fafc;border-radius:999px}.tools{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tools button{background:#151b23;border:1px solid var(--line);color:#dbe1e8;border-radius:12px;padding:10px}
+.discoveryFrame{display:block;width:100%;height:calc(100vh - 145px);min-height:720px;border:0;border-radius:18px;background:#eef3ee}
 .toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);background:#f8fafc;color:#111827;padding:10px 14px;border-radius:999px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:70}.toast.show{opacity:1}
 footer{position:fixed;left:0;right:0;bottom:0;background:rgba(11,15,20,.94);backdrop-filter:blur(12px);border-top:1px solid #222a35;padding:9px 14px calc(9px + env(safe-area-inset-bottom));text-align:center;color:#778394;font-size:11px}
 @media(min-width:700px){.hero{height:620px}}
@@ -30,7 +31,7 @@ footer{position:fixed;left:0;right:0;bottom:0;background:rgba(11,15,20,.94);back
 <div class="app">
   <div class="top">
     <div class="brand"><div class="title"><h1>🇰🇷 <span>Korea Spot Scout</span></h1><p>Sydkorea 2027 · swipe jer frem til jeres fælles favoritter</p></div><div class="profile"><button data-person="Mikkel">Mikkel</button><button data-person="Louise">Louise</button></div></div>
-    <div class="nav"><button data-view="swipe" class="active">Verificerede</button><a href="discovery/">TikTok-fund</a><button data-view="matches">Matches</button><button data-view="likes">Likes</button><button data-view="all">Alle verificerede</button><button data-view="research">Kilder</button></div>
+    <div class="nav"><button data-view="swipe" class="active">Verificerede</button><button data-view="tiktok">TikTok-fund</button><button data-view="matches">Matches</button><button data-view="likes">Likes</button><button data-view="all">Alle verificerede</button><button data-view="research">Kilder</button></div>
   </div>
   <div class="filters"><select id="city"><option value="">Alle byer</option></select><select id="category"><option value="">Alle kategorier</option></select></div>
   <div class="progress"><span id="progressText">0/0</span><div class="bar"><i id="progressBar" style="width:0%"></i></div><span id="matchCount">0 matches</span></div>
@@ -100,12 +101,15 @@ function remaining(){return filtered().filter(s=>!votes[person][s.id])}
 function isMatch(id){return votes.Mikkel[id]==="LIKE"&&votes.Louise[id]==="LIKE"}
 function render(){
  const total=filtered().length,done=total-remaining().length,matches=filtered().filter(s=>isMatch(s.id)).length;
+ document.querySelector(".filters").style.display=view==="tiktok"?"none":"";
+ document.querySelector(".progress").style.display=view==="tiktok"?"none":"";
  document.getElementById("progressText").textContent=`${done}/${total} swipet`;
  document.getElementById("progressBar").style.width=(total?Math.round(done/total*100):0)+"%";
  document.getElementById("matchCount").textContent=`${matches} match${matches===1?"":"es"}`;
  document.querySelectorAll(".profile button").forEach(b=>b.classList.toggle("active",b.dataset.person===person));
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
  const el=document.getElementById("content");
+ if(view==="tiktok"){el.innerHTML='<iframe class="discoveryFrame" src="discovery/?embed=1" title="TikTok-fund"></iframe>';return}
  if(view==="research"){
    el.innerHTML=`<div class="researchCard"><h3>Sådan researcher Korea Spot Scout</h3><p>Vi bruger flere lag af kilder i stedet for at stole på én TikTok, blog eller Google-rating. Målet er både at finde <b>det nye</b> og kontrollere <b>det praktiske</b>.</p>
    <div class="sourceTier"><div class="tierBadge">A</div><div><b>Officielle & primære kilder</b><p>KTO/VISITKOREA, Visit Seoul, Visit Busan, kommuner, nationalparker, officielle venues/brands.</p></div></div>
