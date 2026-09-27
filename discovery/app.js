@@ -5,7 +5,13 @@ const removedLocationIds=new Set(window.KOREA_REMOVED_LOCATION_IDS||[]);
 for(const card of data){
   const verification=locationVerifications[card.id];
   const googleVerification=googlePlaceVerifications[card.id];
-  card.locationStatus=verification?"verified":googleVerification?"map_verified":removedLocationIds.has(card.id)?"removed":"unverified";
+  card.locationStatus=verification
+    ?"verified"
+    :googleVerification?.method==="naver_manual"
+      ?"naver_verified"
+      :googleVerification
+        ?"google_checked"
+        :removedLocationIds.has(card.id)?"removed":"unverified";
   if(verification){
     card.title=verification.name;
     card.koreanName=verification.koreanName;
@@ -18,6 +24,15 @@ for(const card of data){
     card.locationChecked=verification.checked;
     card.locationSources=verification.sources;
   }else if(googleVerification){
+    if(googleVerification.title){
+      card.title=googleVerification.title;
+      card.koreanName=googleVerification.title;
+    }
+    if(googleVerification.address){
+      card.locationLabel=googleVerification.address;
+      card.address=googleVerification.address;
+      card.mapQuery=`${googleVerification.title||card.title} ${googleVerification.address} South Korea`;
+    }
     card.locationChecked=googleVerification.checked;
     card.locationSources=[googleVerification.source,googleVerification.naverSource].filter(Boolean);
     card.googlePlaceId=googleVerification.placeId;
@@ -76,7 +91,7 @@ function matchesStatus(card,status){
 }
 function matchesLocation(card,location){
   if(location==="all")return true;
-  if(location==="checked")return card.locationStatus==="verified"||card.locationStatus==="map_verified";
+  if(location==="usable")return card.locationStatus==="verified"||card.locationStatus==="naver_verified";
   return card.locationStatus===location;
 }
 function rebuild(){
@@ -117,7 +132,7 @@ async function loadThumbnail(card){
 }
 function render(){
   const x=current();
-  const tikTok=data.filter(card=>card.kind==="tiktok"&&(card.locationStatus==="verified"||card.locationStatus==="map_verified"));
+  const tikTok=data.filter(card=>card.kind==="tiktok"&&(card.locationStatus==="verified"||card.locationStatus==="naver_verified"));
   const choices=tikTok.map(card=>votes[person][card.id]).filter(Boolean);
   const counts=choices.reduce((a,v)=>(a[v]=(a[v]||0)+1,a),{});
   els.yes.textContent=counts.LIKE||0; els.maybe.textContent=counts.MAYBE||0; els.no.textContent=counts.NO||0;
@@ -135,9 +150,9 @@ function render(){
   els.creator.textContent=x.creator;
   els.evidence.textContent=x.evidence||"";
   els.sourceCount.textContent=x.kind==="tiktok"?`${x.sourceCount||1} TikTok-kilde${(x.sourceCount||1)===1?"":"r"}`:"Kurateret";
-  els.locationStatus.textContent=x.locationStatus==="verified"?`Fuldt verificeret ${x.locationChecked} · TikTok-indhold kan være ældre`:x.locationStatus==="map_verified"?`Lokation kontrolleret på Google og Naver ${x.locationChecked}`:x.locationStatus==="removed"?"Frasorteret: ingen sikker lokation":"Afventer lokationskontrol";
+  els.locationStatus.textContent=x.locationStatus==="verified"?`Fuldt verificeret ${x.locationChecked} · TikTok-indhold kan være ældre`:x.locationStatus==="naver_verified"?`Lokation kontrolleret manuelt på Naver ${x.locationChecked}`:x.locationStatus==="google_checked"?`Adresse matchet via Google ${x.locationChecked} · afventer manuel Naver-kontrol`:x.locationStatus==="removed"?"Frasorteret: ingen sikker lokation":"Afventer lokationskontrol";
   els.signal.textContent=isMatch(x.id)?"♥ MATCH":x.signal;
-  els.kind.textContent=x.kind==="curated"?"VERIFICERET":x.locationStatus==="verified"?"TIKTOK-VERIFICERET":x.locationStatus==="map_verified"?"TIKTOK-KORTKONTROLLERET":"TIKTOK-LEAD";
+  els.kind.textContent=x.kind==="curated"?"VERIFICERET":x.locationStatus==="verified"?"TIKTOK-VERIFICERET":x.locationStatus==="naver_verified"?"TIKTOK-NAVER-KONTROLLERET":x.locationStatus==="google_checked"?"AFVENTER NAVER":"TIKTOK-LEAD";
   const q=encodeURIComponent(x.mapQuery||x.locationLabel||x.title);
   els.naver.href=`https://map.naver.com/p/search/${q}`;
   els.google.href=`https://www.google.com/maps/search/?api=1&query=${q}`;

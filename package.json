@@ -3,8 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "test": "node --check discovery/app.js && node --check scripts/verify-google-places.mjs && node --check scripts/verify-google-addresses.mjs && node --check scripts/apply-location-decisions.mjs && node --check scripts/record-location-decision.mjs && node --check scripts/validate-location-data.mjs && node scripts/validate-location-data.mjs",
     "verify:places": "node scripts/verify-google-places.mjs",
     "verify:places:dry": "node scripts/verify-google-places.mjs --dry-run",
-    "verify:apply": "node scripts/apply-location-decisions.mjs"
+    "verify:addresses": "node scripts/verify-google-addresses.mjs",
+    "verify:addresses:dry": "node scripts/verify-google-addresses.mjs --dry-run",
+    "verify:apply": "node scripts/apply-location-decisions.mjs",
+    "review:record": "node scripts/record-location-decision.mjs"
   }
 }

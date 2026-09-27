@@ -15,6 +15,8 @@ const argValue=(name,fallback)=>{
 };
 const limit=Math.min(10000,Math.max(1,Number(argValue("--limit","25"))||25));
 const delayMs=Math.max(100,Number(argValue("--delay-ms","250"))||250);
+const progressEvery=Math.max(1,Number(argValue("--progress-every","100"))||100);
+const concurrency=Math.min(10,Math.max(1,Number(argValue("--concurrency","8"))||8));
 
 async function loadEnv(){
   try{
@@ -85,6 +87,7 @@ function buildNaverQueue(cards,cache){
     mapQuery:queryFor(card),
     evidence:card.evidence,
     sourceCount:card.sourceCount,
+    caption:card.caption,
     googlePlaceIds:cache[card.id].placeIds,
     googleFound:Boolean(cache[card.id].placeIds?.length),
     googleChecked:cache[card.id].checked.slice(0,10),
@@ -118,13 +121,22 @@ const key=process.env.GOOGLE_MAPS_API_KEY;
 if(!key)throw new Error("GOOGLE_MAPS_API_KEY mangler. Kopiér .env.example til .env og indsæt en ny, begrænset nøgle.");
 await fs.mkdir(path.dirname(CACHE_FILE),{recursive:true});
 const batch=pendingGroups.slice(0,limit);
-for(const [index,group] of batch.entries()){
-  const card=group[0];
-  const result=await searchPlace(card,key);
-  for(const member of group)cache[member.id]=result;
+let processed=0;
+for(let offset=0;offset<batch.length;offset+=concurrency){
+  const chunk=batch.slice(offset,offset+concurrency);
+  const results=await Promise.all(chunk.map(async(group,index)=>{
+    if(index)await new Promise(resolve=>setTimeout(resolve,index*delayMs));
+    return {group,result:await searchPlace(group[0],key)};
+  }));
+  for(const {group,result} of results){
+    const card=group[0];
+    for(const member of group)cache[member.id]=result;
+    processed++;
+    if(processed%progressEvery===0||processed===1||processed===batch.length){
+      console.log(`${processed}/${batch.length} ${result.placeIds.length?"GOOGLE-HIT":"INTET GOOGLE-HIT"} ${card.title}${group.length>1?` (+${group.length-1} dubletter)`:""}`);
+    }
+  }
   await fs.writeFile(CACHE_FILE,JSON.stringify(cache,null,2)+"\n");
-  console.log(`${index+1}/${batch.length} ${result.placeIds.length?"GOOGLE-HIT":"INTET GOOGLE-HIT"} ${card.title}${group.length>1?` (+${group.length-1} dubletter)`:""}`);
-  if(index<batch.length-1)await new Promise(resolve=>setTimeout(resolve,delayMs));
 }
 const queue=buildNaverQueue(cards,cache);
 await fs.writeFile(NAVER_QUEUE_FILE,JSON.stringify(queue,null,2)+"\n");

@@ -21,7 +21,7 @@ Discovery-data bevarer de samlede kilde-URL'er, mention-id'er, evidensniveau, lo
 
 Discovery-bunken åbner som en fane inde i hovedappen og indlæses først, når `TikTok-fund` vælges. Den bruger de samme Mikkel/Louise-profiler og samme lokale valglager. Et `Nej` fjerner kortet fra den aktive bunke, mens filtrene `Mine likes`, `Mine måske`, `Frasorterede`, `Vores matches` og `Alle vurderinger` gør alle valg genfindelige.
 
-TikTok-fanen viser som standard kun kort, hvor stedet er matchet til en konkret lokation og krydstjekket mod en officiel eller primær kilde. Uverificerede TikTok-leads ligger bag det eksplicitte filter `Afventer lokationskontrol`; en udtrukket adresse eller et genereret Maps-søgelink er ikke i sig selv en verifikation.
+TikTok-fanen viser som standard kun kort, hvor stedet er kontrolleret manuelt på Naver Map eller krydstjekket mod en officiel/primær kilde. Google-adressematches ligger bag filteret `Google-match · afventer Naver` og kan derfor ikke snige sig ind i den almindelige swipebunke. En udtrukket adresse eller et genereret Maps-søgelink er ikke i sig selv en verifikation.
 
 Den kontrollerede TikTok-bunke indeholder nu 13 steder: Inwangsan, Igidae Coastal Walk, Gwangjang Market, Sewoon Plaza, MUSINSA EMPTY Seongsu, The Hyundai Seoul, Spa Land Centum City, Haeundae Sky Capsule, National Museum of Korea, Kakao Friends Hongdae, KT&G Sangsang Madang Busan, Times Square Yeongdeungpo og Seoul Arts Center Opera Theater. Kontrollen bekræfter stedet og placeringen; tidsfølsomt TikTok-indhold skal fortsat re-tjekkes.
 
@@ -37,9 +37,10 @@ Naver Cloud Platform kan ikke oprettes for den aktuelle danske konto. Appen brug
 2. Kopiér `.env.example` til `.env` og indsæt nøglen lokalt.
 3. Kontrollér omfanget uden API-kald med `npm run verify:places:dry`.
 4. Kør ID-opslag med `npm run verify:places -- --limit=10000`. Scriptet bruger kun den gratis **Places API Text Search Essentials (IDs Only)**-variant. Tilladte Place ID'er og vores egen kontrolstatus caches i den ignorerede `work/`-mappe; navne, adresser og andet Google Places-indhold hentes eller gemmes ikke.
-5. Gennemgå `work/naver-manual-queue.json` på Naver Map. Registrér sikre lokationer og afvisninger i `data/location-review-decisions.json`, og kør `npm run verify:apply`.
+5. Kør `npm run verify:addresses -- --limit=10000` for en gratis Places Details Essentials-kontrol af kort med adresser. Kun den afledte matchafgørelse og Place ID gemmes; Googles adresse gemmes ikke.
+6. Gennemgå den reducerede `work/naver-manual-unresolved.json` på Naver Map. Registrér sikre lokationer og afvisninger i `data/location-review-decisions.json`, og kør `npm run verify:apply`.
 
-Et Google Place ID er kun første kontroltrin. Kortet vises først som lokaliseret efter manuel kontrol på Naver Map. Poster uden en sikker lokation skrives til `discovery/removed-after-map-review.json` og vises kun under filteret **Frasorteret uden lokation**. Et sted promoveres først til den verificerede hovedbunke efter kontrol mod en officiel eller anden primær kilde.
+Et Google Place ID og et adresse-match er kun første kontroltrin. De aktuelle kørsler gav 3.335 stærke Google-adressematches, men de vises kun i den separate ventekø, indtil de også er kontrolleret manuelt på Naver. Den første Naver-runde har godkendt fire steder og frasorteret to; 6.674 kort afventer fortsat manuel Naver-kontrol. Poster uden en sikker lokation skrives til `discovery/removed-after-map-review.json` og vises kun under filteret **Frasorteret uden lokation**. Et sted promoveres først til den verificerede hovedbunke efter kontrol mod en officiel eller anden primær kilde.
 
 Kilder og discovery-mentions vises separat på hvert kort. Kandidater, dubletter og frasorterede fund fra seneste gennemgang ligger i `data/tiktok-candidates-2026-09-27.json`.
 
