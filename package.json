@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "verify:places": "node scripts/verify-google-places.mjs",
-    "verify:places:dry": "node scripts/verify-google-places.mjs --dry-run"
+    "verify:places:dry": "node scripts/verify-google-places.mjs --dry-run",
+    "verify:apply": "node scripts/apply-location-decisions.mjs"
   }
 }
-

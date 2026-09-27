@@ -1,3 +1,3 @@
-// Genereres af scripts/verify-google-places.mjs. Google Places er endnu ikke kørt.
+// Genereret af scripts/apply-location-decisions.mjs.
 window.KOREA_GOOGLE_PLACE_VERIFICATIONS={};
-
+window.KOREA_REMOVED_LOCATION_IDS=[];

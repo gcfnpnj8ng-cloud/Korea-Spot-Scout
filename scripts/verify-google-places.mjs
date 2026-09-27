@@ -5,7 +5,7 @@ import process from "node:process";
 const ROOT=path.resolve(import.meta.dirname,"..");
 const CHUNKS=path.join(ROOT,"discovery","chunks");
 const CACHE_FILE=path.join(ROOT,"work","google-places-cache.json");
-const OUTPUT_FILE=path.join(ROOT,"discovery","google-place-verifications.js");
+const NAVER_QUEUE_FILE=path.join(ROOT,"work","naver-manual-queue.json");
 const ENDPOINT="https://places.googleapis.com/v1/places:searchText";
 const args=new Set(process.argv.slice(2));
 const dryRun=args.has("--dry-run");
@@ -13,7 +13,7 @@ const argValue=(name,fallback)=>{
   const exact=process.argv.find(value=>value.startsWith(`${name}=`));
   return exact?exact.slice(name.length+1):fallback;
 };
-const limit=Math.min(100,Math.max(1,Number(argValue("--limit","25"))||25));
+const limit=Math.min(10000,Math.max(1,Number(argValue("--limit","25"))||25));
 const delayMs=Math.max(100,Number(argValue("--delay-ms","250"))||250);
 
 async function loadEnv(){
@@ -43,25 +43,8 @@ async function loadCards(){
   return cards.filter(card=>card.kind==="tiktok");
 }
 
-function tokens(value){
-  return [...new Set(String(value||"").toLowerCase().match(/[\p{L}\p{N}]{2,}/gu)||[])];
-}
-
-function matchScore(card,place){
-  const source=tokens(`${card.title} ${card.koreanName} ${card.locationLabel} ${card.address}`);
-  const target=new Set(tokens(`${place.displayName?.text} ${place.formattedAddress}`));
-  const useful=source.filter(token=>token!=="south"&&token!=="korea");
-  const overlap=useful.filter(token=>target.has(token));
-  const addressNumbers=tokens(card.address).filter(token=>/^\d/.test(token));
-  const numberMatches=addressNumbers.filter(token=>target.has(token)).length;
-  const name=String(place.displayName?.text||"").toLowerCase();
-  const exactName=[card.title,card.koreanName].some(value=>value&&String(value).toLowerCase().includes(name)&&name.length>=3);
-  return Math.min(1,(exactName?0.55:0)+(overlap.length/Math.max(3,Math.min(useful.length,8)))*0.45+(numberMatches?0.2:0));
-}
-
-function isKoreanAddress(place){
-  return /korea|south korea|대한민국|한국/i.test(place.formattedAddress||"");
-}
+function queryFor(card){return card.mapQuery||card.locationLabel||card.title;}
+function queryKey(card){return queryFor(card).normalize("NFKC").toLowerCase().replace(/\s+/g," ").trim();}
 
 async function searchPlace(card,key){
   const response=await fetch(ENDPOINT,{
@@ -69,22 +52,17 @@ async function searchPlace(card,key){
     headers:{
       "Content-Type":"application/json",
       "X-Goog-Api-Key":key,
-      "X-Goog-FieldMask":"places.id,places.displayName,places.formattedAddress,places.googleMapsUri,places.businessStatus"
+      // ID-only Text Search er den gratis Essentials-variant. Ingen Google-
+      // navne, adresser eller andre Places-data hentes eller gemmes.
+      "X-Goog-FieldMask":"places.id"
     },
-    body:JSON.stringify({textQuery:card.mapQuery||card.locationLabel||card.title,languageCode:"ko",regionCode:"KR",pageSize:3})
+    body:JSON.stringify({textQuery:queryFor(card),languageCode:"ko",regionCode:"KR",pageSize:3})
   });
   if(!response.ok)throw new Error(`Google Places ${response.status}: ${(await response.text()).slice(0,300)}`);
   const places=(await response.json()).places||[];
-  const ranked=places.map(place=>({...place,score:matchScore(card,place)})).sort((a,b)=>b.score-a.score);
-  const best=ranked[0];
-  const accepted=Boolean(best&&isKoreanAddress(best)&&best.businessStatus!=="CLOSED_PERMANENTLY"&&best.score>=0.72);
-  // Google Places-indhold må ikke gemmes permanent. Bevar kun vores egen
-  // afgørelse samt Place ID, som er undtaget fra cachingbegrænsningen.
   return {
     checked:new Date().toISOString(),
-    accepted,
-    placeId:accepted?best.id:null,
-    score:best?Number(best.score.toFixed(2)):0
+    placeIds:places.map(place=>place.id).filter(Boolean)
   };
 }
 
@@ -94,36 +72,60 @@ function priority(card){
   return (categories[card.category]||0)*100+(evidence[card.evidence]||0)*10+(card.sourceCount||0);
 }
 
-function publicResults(cache){
-  const result={};
-  for(const [id,item] of Object.entries(cache)){
-    if(!item.accepted||!item.placeId)continue;
-    result[id]={
-      checked:item.checked.slice(0,10),
-      placeId:item.placeId,
-      score:item.score,
-      source:`https://www.google.com/maps/search/?api=1&query_place_id=${encodeURIComponent(item.placeId)}`
-    };
-  }
-  return result;
+function buildNaverQueue(cards,cache){
+  return cards.filter(card=>cache[card.id]).map(card=>({
+    id:card.id,
+    title:card.title,
+    koreanName:card.koreanName,
+    city:card.city,
+    region:card.region,
+    category:card.category,
+    locationLabel:card.locationLabel,
+    address:card.address,
+    mapQuery:queryFor(card),
+    evidence:card.evidence,
+    sourceCount:card.sourceCount,
+    googlePlaceIds:cache[card.id].placeIds,
+    googleFound:Boolean(cache[card.id].placeIds?.length),
+    googleChecked:cache[card.id].checked.slice(0,10),
+    googleUrl:cache[card.id].placeIds?.[0]?`https://www.google.com/maps/search/?api=1&query_place_id=${encodeURIComponent(cache[card.id].placeIds[0])}`:`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(queryFor(card))}`,
+    naverUrl:`https://map.naver.com/p/search/${encodeURIComponent(queryFor(card))}`,
+    tiktokUrls:card.urls||[]
+  })).sort((a,b)=>Number(b.googleFound)-Number(a.googleFound)||priority(b)-priority(a));
 }
 
 await loadEnv();
 const cards=await loadCards();
 const cache=await readJson(CACHE_FILE,{});
-const pending=cards.filter(card=>!cache[card.id]).sort((a,b)=>priority(b)-priority(a));
-console.log(`${cards.length} TikTok-stedkort, ${Object.keys(cache).length} allerede kontrolleret, ${pending.length} mangler.`);
-console.log(`Næste batch: ${Math.min(limit,pending.length)}. Maksimum pr. kørsel er 100.`);
+const groups=new Map();
+for(const card of cards){
+  const key=queryKey(card);
+  if(!groups.has(key))groups.set(key,[]);
+  groups.get(key).push(card);
+}
+for(const group of groups.values()){
+  const existing=group.find(card=>cache[card.id]);
+  if(existing)for(const card of group)if(!cache[card.id])cache[card.id]=cache[existing.id];
+}
+const pendingGroups=[...groups.values()].filter(group=>!group.some(card=>cache[card.id])).sort((a,b)=>priority(b[0])-priority(a[0]));
+const evidenceCounts=Object.fromEntries([...new Set(cards.map(card=>card.evidence))].sort().map(evidence=>[evidence,cards.filter(card=>card.evidence===evidence).length]));
+console.log(`${cards.length} TikTok-stedkort fordelt på ${groups.size} unikke Google-søgninger.`);
+console.log(`${Object.keys(cache).length} kort er allerede Google-kontrolleret; ${pendingGroups.length} unikke søgninger mangler.`);
+console.log(`Evidens: ${JSON.stringify(evidenceCounts)}`);
+console.log(`Næste batch: ${Math.min(limit,pendingGroups.length)} gratis ID-opslag. Maksimum pr. kørsel er 10.000.`);
 if(dryRun)process.exit(0);
 const key=process.env.GOOGLE_MAPS_API_KEY;
 if(!key)throw new Error("GOOGLE_MAPS_API_KEY mangler. Kopiér .env.example til .env og indsæt en ny, begrænset nøgle.");
 await fs.mkdir(path.dirname(CACHE_FILE),{recursive:true});
-for(const [index,card] of pending.slice(0,limit).entries()){
-  cache[card.id]=await searchPlace(card,key);
+const batch=pendingGroups.slice(0,limit);
+for(const [index,group] of batch.entries()){
+  const card=group[0];
+  const result=await searchPlace(card,key);
+  for(const member of group)cache[member.id]=result;
   await fs.writeFile(CACHE_FILE,JSON.stringify(cache,null,2)+"\n");
-  console.log(`${index+1}/${Math.min(limit,pending.length)} ${cache[card.id].accepted?"MATCH":"AFVENTER"} ${card.title}`);
-  if(index<Math.min(limit,pending.length)-1)await new Promise(resolve=>setTimeout(resolve,delayMs));
+  console.log(`${index+1}/${batch.length} ${result.placeIds.length?"GOOGLE-HIT":"INTET GOOGLE-HIT"} ${card.title}${group.length>1?` (+${group.length-1} dubletter)`:""}`);
+  if(index<batch.length-1)await new Promise(resolve=>setTimeout(resolve,delayMs));
 }
-const output=`// Genereret ${new Date().toISOString()} af scripts/verify-google-places.mjs.\nwindow.KOREA_GOOGLE_PLACE_VERIFICATIONS=${JSON.stringify(publicResults(cache),null,2)};\n`;
-await fs.writeFile(OUTPUT_FILE,output);
-console.log(`Gemte ${Object.keys(publicResults(cache)).length} konservative Google Maps-match i ${path.relative(ROOT,OUTPUT_FILE)}.`);
+const queue=buildNaverQueue(cards,cache);
+await fs.writeFile(NAVER_QUEUE_FILE,JSON.stringify(queue,null,2)+"\n");
+console.log(`Gemte ${queue.length} Google-kontrollerede kort i ${path.relative(ROOT,NAVER_QUEUE_FILE)} til manuel Naver-gennemgang.`);

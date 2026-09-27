@@ -1,10 +1,11 @@
 const data = window.KOREA_SWIPE_DATA || [];
 const locationVerifications=window.KOREA_LOCATION_VERIFICATIONS||{};
 const googlePlaceVerifications=window.KOREA_GOOGLE_PLACE_VERIFICATIONS||{};
+const removedLocationIds=new Set(window.KOREA_REMOVED_LOCATION_IDS||[]);
 for(const card of data){
   const verification=locationVerifications[card.id];
   const googleVerification=googlePlaceVerifications[card.id];
-  card.locationStatus=verification?"verified":googleVerification?"map_verified":"unverified";
+  card.locationStatus=verification?"verified":googleVerification?"map_verified":removedLocationIds.has(card.id)?"removed":"unverified";
   if(verification){
     card.title=verification.name;
     card.koreanName=verification.koreanName;
@@ -18,7 +19,7 @@ for(const card of data){
     card.locationSources=verification.sources;
   }else if(googleVerification){
     card.locationChecked=googleVerification.checked;
-    card.locationSources=[googleVerification.source];
+    card.locationSources=[googleVerification.source,googleVerification.naverSource].filter(Boolean);
     card.googlePlaceId=googleVerification.placeId;
     card.googleMatchScore=googleVerification.score;
   }
@@ -134,7 +135,7 @@ function render(){
   els.creator.textContent=x.creator;
   els.evidence.textContent=x.evidence||"";
   els.sourceCount.textContent=x.kind==="tiktok"?`${x.sourceCount||1} TikTok-kilde${(x.sourceCount||1)===1?"":"r"}`:"Kurateret";
-  els.locationStatus.textContent=x.locationStatus==="verified"?`Fuldt verificeret ${x.locationChecked} · TikTok-indhold kan være ældre`:x.locationStatus==="map_verified"?`Fundet på Google Maps ${x.locationChecked} · ikke fuldt kildeverificeret`:"Afventer lokationskontrol";
+  els.locationStatus.textContent=x.locationStatus==="verified"?`Fuldt verificeret ${x.locationChecked} · TikTok-indhold kan være ældre`:x.locationStatus==="map_verified"?`Lokation kontrolleret på Google og Naver ${x.locationChecked}`:x.locationStatus==="removed"?"Frasorteret: ingen sikker lokation":"Afventer lokationskontrol";
   els.signal.textContent=isMatch(x.id)?"♥ MATCH":x.signal;
   els.kind.textContent=x.kind==="curated"?"VERIFICERET":x.locationStatus==="verified"?"TIKTOK-VERIFICERET":x.locationStatus==="map_verified"?"TIKTOK-KORTKONTROLLERET":"TIKTOK-LEAD";
   const q=encodeURIComponent(x.mapQuery||x.locationLabel||x.title);

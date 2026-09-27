@@ -35,10 +35,11 @@ Naver Cloud Platform kan ikke oprettes for den aktuelle danske konto. Appen brug
 
 1. Opret en ny Google-nøgle, begræns den til **Places API (New)** og sæt en lav budget-/forbrugsalarm. En nøgle, der har været delt i chat, skal erstattes.
 2. Kopiér `.env.example` til `.env` og indsæt nøglen lokalt.
-3. Kontrollér omkostningsomfanget uden API-kald med `npm run verify:places:dry`.
-4. Kør små batches med `npm run verify:places -- --limit=25`. Vores egen matchafgørelse og tilladte Place ID'er caches i den ignorerede `work/`-mappe, så samme kort ikke faktureres igen ved næste kørsel. Navne, adresser og andet Google Places-indhold gemmes ikke.
+3. Kontrollér omfanget uden API-kald med `npm run verify:places:dry`.
+4. Kør ID-opslag med `npm run verify:places -- --limit=10000`. Scriptet bruger kun den gratis **Places API Text Search Essentials (IDs Only)**-variant. Tilladte Place ID'er og vores egen kontrolstatus caches i den ignorerede `work/`-mappe; navne, adresser og andet Google Places-indhold hentes eller gemmes ikke.
+5. Gennemgå `work/naver-manual-queue.json` på Naver Map. Registrér sikre lokationer og afvisninger i `data/location-review-decisions.json`, og kør `npm run verify:apply`.
 
-Kun konservative matches i Sydkorea tilføjes `discovery/google-place-verifications.js`. De vises som **Fundet på Google Maps**, ikke som fuldt verificerede. Et sted promoveres først til den verificerede hovedbunke efter kontrol mod en officiel eller anden primær kilde.
+Et Google Place ID er kun første kontroltrin. Kortet vises først som lokaliseret efter manuel kontrol på Naver Map. Poster uden en sikker lokation skrives til `discovery/removed-after-map-review.json` og vises kun under filteret **Frasorteret uden lokation**. Et sted promoveres først til den verificerede hovedbunke efter kontrol mod en officiel eller anden primær kilde.
 
 Kilder og discovery-mentions vises separat på hvert kort. Kandidater, dubletter og frasorterede fund fra seneste gennemgang ligger i `data/tiktok-candidates-2026-09-27.json`.
 
