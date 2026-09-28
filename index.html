@@ -109,7 +109,7 @@ function render(){
  document.querySelectorAll(".profile button").forEach(b=>b.classList.toggle("active",b.dataset.person===person));
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
  const el=document.getElementById("content");
- if(view==="tiktok"){el.innerHTML='<iframe class="discoveryFrame" src="discovery/?embed=1&data=chunks-v1" title="TikTok-fund"></iframe>';return}
+ if(view==="tiktok"){el.innerHTML='<iframe class="discoveryFrame" src="discovery/?embed=1&data=chunks-v1&v=20260928-1" title="TikTok-fund"></iframe>';return}
  if(view==="research"){
    el.innerHTML=`<div class="researchCard"><h3>Sådan researcher Korea Spot Scout</h3><p>Vi bruger flere lag af kilder i stedet for at stole på én TikTok, blog eller Google-rating. Målet er både at finde <b>det nye</b> og kontrollere <b>det praktiske</b>.</p>
    <div class="sourceTier"><div class="tierBadge">A</div><div><b>Officielle & primære kilder</b><p>KTO/VISITKOREA, Visit Seoul, Visit Busan, kommuner, nationalparker, officielle venues/brands.</p></div></div>
