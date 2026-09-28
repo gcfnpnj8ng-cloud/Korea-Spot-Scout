@@ -151,7 +151,7 @@ function render(){
   els.creator.textContent=x.creator;
   els.evidence.textContent=x.evidence||"";
   els.sourceCount.textContent=x.kind==="tiktok"?`${x.sourceCount||1} TikTok-kilde${(x.sourceCount||1)===1?"":"r"}`:"Kurateret";
-  els.locationStatus.textContent=x.locationStatus==="verified"?`Fuldt verificeret ${x.locationChecked} · TikTok-indhold kan være ældre`:x.locationStatus==="naver_verified"?`Lokation kontrolleret manuelt på Naver ${x.locationChecked}`:x.locationStatus==="google_checked"?`Adresse matchet via Google ${x.locationChecked} · afventer manuel Naver-kontrol`:x.locationStatus==="removed"?"Frasorteret: ingen sikker lokation":"Afventer lokationskontrol";
+  els.locationStatus.textContent=x.locationStatus==="verified"?`Fuldt verificeret ${x.locationChecked} · TikTok-indhold kan være ældre`:x.locationStatus==="naver_verified"?`Lokation kontrolleret manuelt på Naver ${x.locationChecked}`:x.locationStatus==="google_checked"?`Adresse matchet via Google ${x.locationChecked} · afventer manuel Naver-kontrol`:x.locationStatus==="removed"?"Frasorteret efter lokations-/aktualitetskontrol":"Afventer lokationskontrol";
   els.signal.textContent=isMatch(x.id)?"♥ MATCH":x.signal;
   els.kind.textContent=x.kind==="curated"?"VERIFICERET":x.locationStatus==="verified"?"TIKTOK-VERIFICERET":x.locationStatus==="naver_verified"?"TIKTOK-NAVER-KONTROLLERET":x.locationStatus==="google_checked"?"AFVENTER NAVER":"TIKTOK-LEAD";
   const q=encodeURIComponent(x.mapQuery||x.locationLabel||x.title);

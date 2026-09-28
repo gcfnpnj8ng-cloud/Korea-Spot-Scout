@@ -1183,13 +1183,6 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "method": "google_address",
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJj_sWF5ujfDURUS3cXVmzb7w"
   },
-  "LOC-67cf8bd104b38d0b": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJN-CwbTijfDURf76gvEbh6EE",
-    "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJN-CwbTijfDURf76gvEbh6EE"
-  },
   "LOC-f30de46b78c33fbc": {
     "checked": "2026-09-27",
     "placeId": "ChIJbeRE0iaZfDURXj1k2a0fdiQ",
@@ -5629,32 +5622,44 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJh_7Ey-6lfDUR5LZp5R4b_H4"
   },
   "LOC-091fae1721b3a7f0": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJDSyC6j-ZfDURulZu5xRIp-w",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJDSyC6j-ZfDURulZu5xRIp-w"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/커먼유니크 쇼룸",
+    "title": "커먼유니크 쇼룸",
+    "address": "서울 마포구 동교로23길 32-23 1층"
   },
   "LOC-0b335b8a63fbda41": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJKZ_GMgClfDUR8WV3vVnVExg",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJKZ_GMgClfDUR8WV3vVnVExg"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/H%26M 성수점",
+    "title": "H&M 성수점",
+    "address": "서울 성동구 연무장길 17-1"
   },
   "LOC-a57cb40e937721d4": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJ9z032yiZfDUR5z99YPcb9ZQ",
-    "score": 0.85,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ9z032yiZfDUR5z99YPcb9ZQ"
+    "checked": "2026-09-28",
+    "placeId": null,
+    "score": 1,
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/아이디빈티지",
+    "title": "아이디빈티지",
+    "address": "서울 마포구 양화로6길 60 지하1층"
   },
   "LOC-fae6b489352021f4": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJqxuo4F6ZfDURhFu_tB5g9WA",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJqxuo4F6ZfDURhFu_tB5g9WA"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/IROT VINTAGE",
+    "title": "IROT VINTAGE",
+    "address": "서울 마포구 독막로5길 8 지하1층"
   },
   "LOC-4ed1f035e18d1470": {
     "checked": "2026-09-27",
@@ -5719,13 +5724,6 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "method": "google_address",
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJowPrEJ2lfDURDL0Tmyv2u3Q"
   },
-  "LOC-f727bc429b15deb7": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJu_pS7DejfDURDbBfgIyh6Q0",
-    "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJu_pS7DejfDURDbBfgIyh6Q0"
-  },
   "LOC-627068864261c3d4": {
     "checked": "2026-09-27",
     "placeId": "ChIJc2cBUPCjfDURhm8UYo_xyKk",
@@ -5741,11 +5739,14 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJu8fzHuikfDURIK_UfIIqBKE"
   },
   "LOC-80013fb983ef42b2": {
-    "checked": "2026-09-27",
-    "placeId": "EkEyZiwgMzEwLTUxIFNlb25nc3UtZG9uZyAyKGkpLWdhLCBTZW9uZ2RvbmctZ3UsIFNlb3VsLCBTb3V0aCBLb3JlYSIeGhwKFgoUChIJC1SRuJCkfDURiK2hL7evARESAjJm",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=EkEyZiwgMzEwLTUxIFNlb25nc3UtZG9uZyAyKGkpLWdhLCBTZW9uZ2RvbmctZ3UsIFNlb3VsLCBTb3V0aCBLb3JlYSIeGhwKFgoUChIJC1SRuJCkfDURiK2hL7evARESAjJm"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/뉴발란스 직영성수점",
+    "title": "뉴발란스 직영성수점",
+    "address": "서울 성동구 연무장길 24"
   },
   "LOC-66354a8202d64c4e": {
     "checked": "2026-09-27",
@@ -6972,13 +6973,6 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "method": "google_address",
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJr8-8X-t4ezURQS34PLfegkY"
   },
-  "LOC-8aa5ddc788c5ff97": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJ534VWsN5ezURc1D-rqUTJjg",
-    "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ534VWsN5ezURc1D-rqUTJjg"
-  },
   "LOC-64019ed74f230e30": {
     "checked": "2026-09-27",
     "placeId": "ChIJu0QkzMmafDURhcF1rkTj7RQ",
@@ -8107,25 +8101,34 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJCd0otsPjZTURB3ADF7tf45o"
   },
   "LOC-a3a2f19b5cd0abd2": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJp91as5njZTURR98Nl52chwI",
-    "score": 0.85,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJp91as5njZTURR98Nl52chwI"
+    "checked": "2026-09-28",
+    "placeId": null,
+    "score": 1,
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/유즈드박스 빈티지샵",
+    "title": "유즈드박스 빈티지샵",
+    "address": "대구 중구 동성로2길 18-11"
   },
   "LOC-ae5da8b46e00c563": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJcVxK5olPZjURef1XL8KTL5s",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJcVxK5olPZjURef1XL8KTL5s"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/오늘의마켓 경주점",
+    "title": "오늘의마켓 경주점",
+    "address": "경북 경주시 사정로57번길 12-1 1층"
   },
   "LOC-524db32b5a6bfd00": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJEaiUnsbjZTUR_vWLUea_D0M",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJEaiUnsbjZTUR_vWLUea_D0M"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/이코샵 대구",
+    "title": "이코샵",
+    "address": "대구 중구 동성로2길 18-8 1층"
   },
   "LOC-8d3340fef0b0e684": {
     "checked": "2026-09-27",
@@ -12636,11 +12639,14 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJKYSCUDNDezURrh3y2hz65o8"
   },
   "LOC-6fac14efad56fd4b": {
-    "checked": "2026-09-27",
-    "placeId": "Ej0y7Li1LCA1IEp1bmdhbmctcm8gMTM3YmVvbi1naWwsIEp1bmctZ3UsIERhZWplb24sIFNvdXRoIEtvcmVhIiAaHgoWChQKEgkzfkSdJ0llNRFXZe_S_6L5PBIEMuy4tQ",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=Ej0y7Li1LCA1IEp1bmdhbmctcm8gMTM3YmVvbi1naWwsIEp1bmctZ3UsIERhZWplb24sIFNvdXRoIEtvcmVhIiAaHgoWChQKEgkzfkSdJ0llNRFXZe_S_6L5PBIEMuy4tQ"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/엑시트웨이 대전",
+    "title": "엑시트웨이",
+    "address": "대전 중구 중앙로137번길 5 2층"
   },
   "LOC-1465677ea6eb6822": {
     "checked": "2026-09-27",
@@ -12650,11 +12656,14 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJXQ1XatonZTUR938_y4eE87g"
   },
   "LOC-ac276b2573614e66": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJs9yHNABDezURsQcD2XIBh6w",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJs9yHNABDezURsQcD2XIBh6w"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/하나모토 수원",
+    "title": "하나모토",
+    "address": "경기 수원시 팔달구 화서문로46번길 3 지하1층"
   },
   "LOC-136c7816ef9aaba6": {
     "checked": "2026-09-27",
@@ -12683,13 +12692,6 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "score": 1,
     "method": "google_address",
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJo4K-LQA5ejURZnRlcDagkdM"
-  },
-  "LOC-2319192cd7fa2479": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJ0R2twIaMcTURKJC5bUlbXhs",
-    "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ0R2twIaMcTURKJC5bUlbXhs"
   },
   "LOC-93e2c447e7beeed2": {
     "checked": "2026-09-27",
@@ -14791,13 +14793,6 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "method": "google_address",
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJZ9DiS_2ifDURtTW-u3JAgOk"
   },
-  "LOC-b9b2c22e232b592d": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJ9XBfkNuYfDURTwo1ecnLWvc",
-    "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ9XBfkNuYfDURTwo1ecnLWvc"
-  },
   "LOC-7b696e86d2d9342a": {
     "checked": "2026-09-27",
     "placeId": "ChIJR2YRMTajfDUR5wm-8es9o7s",
@@ -14806,25 +14801,24 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJR2YRMTajfDUR5wm-8es9o7s"
   },
   "LOC-318b374d3adcc29c": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJhdmvbYW7fDURguX20RzBGtY",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJhdmvbYW7fDURguX20RzBGtY"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/강남빈티지이야기",
+    "title": "강남빈티지이야기",
+    "address": "서울 성북구 장위로 112 2층, 3층, 4층"
   },
   "LOC-cdb712931b0062d1": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJ0RpFF6udfDURny3VdT6FRW8",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ0RpFF6udfDURny3VdT6FRW8"
-  },
-  "LOC-f2e7274997c2a98c": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJa0Mu0EmjfDURywHTQIj-Esc",
-    "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJa0Mu0EmjfDURywHTQIj-Esc"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/무인빈티지샵 TOT",
+    "title": "무인빈티지샵 TOT",
+    "address": "서울 양천구 남부순환로 347"
   },
   "LOC-d3213fe93f1c9b5c": {
     "checked": "2026-09-27",
@@ -14834,11 +14828,14 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ51sxKjajfDURX7J-idTdGS8"
   },
   "LOC-12c2ca6b49a3c84d": {
-    "checked": "2026-09-27",
-    "placeId": "EkE2MCDquLggMzIsIDMyIEpvbmctcm8gNjAtZ2lsLCBKb25nbm8gRGlzdHJpY3QsIFNlb3VsLCBTb3V0aCBLb3JlYSIlGiMKFgoUChIJwe6wLEijfDURJqYBwdvnGH4SCTYwIOq4uCAzMg",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=EkE2MCDquLggMzIsIDMyIEpvbmctcm8gNjAtZ2lsLCBKb25nbm8gRGlzdHJpY3QsIFNlb3VsLCBTb3V0aCBLb3JlYSIlGiMKFgoUChIJwe6wLEijfDURJqYBwdvnGH4SCTYwIOq4uCAzMg"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/루스",
+    "title": "루스",
+    "address": "서울 종로구 종로60길 32 1층"
   },
   "LOC-f634062365cd5830": {
     "checked": "2026-09-27",
@@ -14855,18 +14852,24 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJRaR8bfWifDUR5EZWUEAS5lY"
   },
   "LOC-7d1a33cbb7d205d5": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJTRIKIfWifDURc-g_qNG8rfU",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJTRIKIfWifDURc-g_qNG8rfU"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/우정식당 남대문시장길 12-9",
+    "title": "우정식당",
+    "address": "서울 중구 남대문시장길 12-9"
   },
   "LOC-9ac2ae50bacf9e54": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJiR7MGPWifDUR3RSqVhGdw3g",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJiR7MGPWifDUR3RSqVhGdw3g"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/닭진미강원집",
+    "title": "닭진미강원집",
+    "address": "서울 중구 남대문시장길 22-20"
   },
   "LOC-e9b9477193d4add3": {
     "checked": "2026-09-27",
@@ -15736,13 +15739,6 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "method": "google_address",
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ79A3TpXlYjURSRRm6lhFuRA"
   },
-  "LOC-30ee4e257f3a408e": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJ8VNkrcTjZTURyGe2tguZRCc",
-    "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ8VNkrcTjZTURyGe2tguZRCc"
-  },
   "LOC-9f9f0b5f362bfeaa": {
     "checked": "2026-09-27",
     "placeId": "ChIJDeNjfFoJZjURXE9oIkmAQdg",
@@ -16528,18 +16524,14 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
     "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJxYhym0KNaDURzO_T2qSxmQc"
   },
   "LOC-5bbd3f70e5436741": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJrWIZOtlIZTURayDyxmGpeVY",
+    "checked": "2026-09-28",
+    "placeId": null,
     "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJrWIZOtlIZTURayDyxmGpeVY"
-  },
-  "LOC-1fb0b87785c6ecbc": {
-    "checked": "2026-09-27",
-    "placeId": "ChIJnTC4JD1DezUR_tzYnAf8JU0",
-    "score": 1,
-    "method": "google_address",
-    "source": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJnTC4JD1DezUR_tzYnAf8JU0"
+    "method": "naver_manual",
+    "source": null,
+    "naverSource": "https://map.naver.com/p/search/코마빈티지 대전",
+    "title": "코마빈티지",
+    "address": "대전 중구 중앙로170번길 23 지하1층"
   },
   "LOC-960873f29a6c2441": {
     "checked": "2026-09-27",
@@ -23418,5 +23410,13 @@ window.KOREA_GOOGLE_PLACE_VERIFICATIONS={
 };
 window.KOREA_REMOVED_LOCATION_IDS=[
   "LOC-40941549afc03b15",
-  "LOC-fde74750537b6d7e"
+  "LOC-fde74750537b6d7e",
+  "LOC-f727bc429b15deb7",
+  "LOC-1fb0b87785c6ecbc",
+  "LOC-f2e7274997c2a98c",
+  "LOC-2319192cd7fa2479",
+  "LOC-b9b2c22e232b592d",
+  "LOC-8aa5ddc788c5ff97",
+  "LOC-30ee4e257f3a408e",
+  "LOC-67cf8bd104b38d0b"
 ];

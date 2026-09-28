@@ -12,5 +12,61 @@
     "note": "404.archive.shop giver ingen Naver-resultater på navn og adresse.",
     "googleUrl": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EB%82%9C%EA%B3%84%EB%A1%9C%2027%EA%B8%B8%2072%2C%201F%20%EB%A7%8E%EC%9D%B4%20%EB%B0%A9%EB%AC%B8%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94~!%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EB%82%9C%EA%B3%84%EB%A1%9C%2027%20Seoul%20South%20Korea",
     "naverUrl": "https://map.naver.com/p/search/%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EB%82%9C%EA%B3%84%EB%A1%9C%2027%EA%B8%B8%2072%2C%201F%20%EB%A7%8E%EC%9D%B4%20%EB%B0%A9%EB%AC%B8%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94~!%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EB%82%9C%EA%B3%84%EB%A1%9C%2027%20Seoul%20South%20Korea"
+  },
+  "LOC-f727bc429b15deb7": {
+    "checked": "2026-09-28",
+    "reason": "Ingen sikker Naver-lokation",
+    "note": "USA 브랜드 빈티지 giver ingen Naver-virksomhed på den angivne adresse.",
+    "googleUrl": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJu_pS7DejfDURDbBfgIyh6Q0",
+    "naverUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A7%80%EB%B4%89%EB%A1%9C4%EA%B8%B8%2027%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A7%80%EB%B4%89%EB%A1%9C4%EA%B8%B8%2027%20Seoul%20South%20Korea"
+  },
+  "LOC-1fb0b87785c6ecbc": {
+    "checked": "2026-09-28",
+    "reason": "Ingen sikker Naver-lokation",
+    "note": "원스오운 giver ingen Naver-virksomhed på navn og adresse.",
+    "googleUrl": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJnTC4JD1DezUR_tzYnAf8JU0",
+    "naverUrl": "https://map.naver.com/p/search/%ED%8C%94%EB%8B%AC%EA%B5%AC%20%ED%9A%A8%EC%9B%90%EB%A1%9C%2036%20%ED%8C%94%EB%8B%AC%EA%B5%AC%20%ED%9A%A8%EC%9B%90%EB%A1%9C%2036%20Suwon%20South%20Korea"
+  },
+  "LOC-f2e7274997c2a98c": {
+    "checked": "2026-09-28",
+    "reason": "Ingen sikker Naver-lokation",
+    "note": "404notfound giver ingen Naver-virksomhed på navn og adresse.",
+    "googleUrl": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJa0Mu0EmjfDURywHTQIj-Esc",
+    "naverUrl": "https://map.naver.com/p/search/%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EB%82%9C%EA%B3%84%EB%A1%9C27%EA%B8%B8%2072%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EB%82%9C%EA%B3%84%EB%A1%9C27%EA%B8%B8%2072%20Seoul%20South%20Korea"
+  },
+  "LOC-2319192cd7fa2479": {
+    "checked": "2026-09-28",
+    "reason": "Ingen sikker Naver-lokation",
+    "note": "도쿄쥬 giver ingen Naver-virksomhed på navn og adresse.",
+    "googleUrl": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ0R2twIaMcTURKJC5bUlbXhs",
+    "naverUrl": "https://map.naver.com/p/search/%EA%B4%91%EC%A3%BC%20%EB%8F%84%EC%BF%84%EC%A5%AC%2C%EC%98%81%20%EC%A0%84%EB%82%A8%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EB%8F%99%EA%B5%AC%20%EC%B6%A9%EC%9E%A5%EB%A1%9C%EC%95%88%EA%B8%B8%207-1%20Gwangju%20South%20Korea"
+  },
+  "LOC-b9b2c22e232b592d": {
+    "checked": "2026-09-28",
+    "reason": "Ingen sikker Naver-lokation",
+    "note": "wisegirl.vintage giver ingen Naver-virksomhed; TikTok siger selv, at butikken ikke åbner dagligt.",
+    "googleUrl": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ9XBfkNuYfDURTwo1ecnLWvc",
+    "naverUrl": "https://map.naver.com/p/search/%EB%A7%88%ED%8F%AC%EA%B5%AC%20%EB%8F%99%EA%B5%90%EB%A1%9C%20144-3%20%EB%A7%88%ED%8F%AC%EA%B5%AC%20%EB%8F%99%EA%B5%90%EB%A1%9C%20144-3%20Seoul%20South%20Korea"
+  },
+  "LOC-8aa5ddc788c5ff97": {
+    "checked": "2026-09-28",
+    "reason": "Udløbet event",
+    "note": "LF Square-arrangementet sluttede 6. september 2026.",
+    "googleUrl": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ534VWsN5ezURc1D-rqUTJjg",
+    "naverUrl": "https://map.naver.com/p/search/%EC%A3%BC%EC%86%8C%20%3A%20%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%97%B0%EC%88%98%EA%B5%AC%20%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%97%B0%EC%88%98%EA%B5%AC%20%EC%B2%AD%EB%8A%A5%EB%8C%80%EB%A1%9C23%EB%B2%88%EA%B8%B8%2011%20Incheon%20South%20Korea"
+  },
+  "LOC-30ee4e257f3a408e": {
+    "checked": "2026-09-28",
+    "reason": "Ingen stabil lokation",
+    "note": "TikTok-opslaget siger selv, at vintagebutikken ikke er registreret på kort og mangler et stabilt navn.",
+    "googleUrl": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJ8VNkrcTjZTURyGe2tguZRCc",
+    "naverUrl": "https://map.naver.com/p/search/%EC%A4%91%EA%B5%AC%20%EB%8F%99%EC%84%B1%EB%A1%9C%2056%20%EC%A4%91%EA%B5%AC%20%EB%8F%99%EC%84%B1%EB%A1%9C%2056%20Daegu%20South%20Korea"
+  },
+  "LOC-67cf8bd104b38d0b": {
+    "checked": "2026-09-28",
+    "reason": "Ingen stabil lokation",
+    "note": "Kortet beskriver en uregistreret markedsbod, ikke et stabilt sted der kan genfindes.",
+    "googleUrl": "https://www.google.com/maps/search/?api=1&query_place_id=ChIJN-CwbTijfDURf76gvEbh6EE",
+    "naverUrl": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%A4%91%EA%B5%AC%20%ED%9D%A5%EC%9D%B8%EB%8F%99%20166%20%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%A4%91%EA%B5%AC%20%ED%9D%A5%EC%9D%B8%EB%8F%99%20166%20Seoul%20South%20Korea"
   }
 }

@@ -33,6 +33,7 @@ for(const [id,item] of Object.entries(decisions.verified||{})){
   };
 }
 const rejected=Object.keys(decisions.rejected||{});
+for(const id of rejected)delete verified[id];
 const js=`// Genereret af scripts/apply-location-decisions.mjs.\nwindow.KOREA_GOOGLE_PLACE_VERIFICATIONS=${JSON.stringify(verified,null,2)};\nwindow.KOREA_REMOVED_LOCATION_IDS=${JSON.stringify(rejected,null,2)};\n`;
 await fs.writeFile(path.join(ROOT,"discovery","google-place-verifications.js"),js);
 await fs.writeFile(path.join(ROOT,"discovery","removed-after-map-review.json"),JSON.stringify(decisions.rejected||{},null,2)+"\n");
